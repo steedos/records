@@ -1,5 +1,4 @@
 FlowRouter.route '/',
 	action: (params, queryParams)->
-		
-		BlazeLayout.render 'appLayout',
-			main: "appHome"
+		BlazeLayout.render 'steedosLayout',
+			main: "recordsHome"

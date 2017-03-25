@@ -23,13 +23,22 @@ less
 reload
 session
 
+accounts-ui 
+accounts-password
 
 fortawesome:fontawesome
 
 aldeed:collection2
 aldeed:simple-schema
+aldeed:autoform
+aldeed:autoform-bs-datetimepicker 
+tsega:bootstrap3-datetimepicker@=3.1.3_3
+yogiben:autoform-modals
 
 kadira:flow-router
 kadira:blaze-layout
 
 meteorhacks:subs-manager
+
+steedos:base@0.0.2
+steedos:theme@0.0.4

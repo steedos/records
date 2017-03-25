@@ -1,0 +1,1 @@
+Steedos.API.setAppTitle("Steedos Records");
