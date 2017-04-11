@@ -42,6 +42,5 @@ kadira:blaze-layout
 meteorhacks:subs-manager
 
 steedos:adminlte@2.3.12_2
-steedos:base@0.0.7
+steedos:base@0.0.10
 steedos:theme@0.0.10
-steedos:accounts@0.0.2 

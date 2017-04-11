@@ -2,12 +2,16 @@
 
 @RecordTypes = new Mongo.Collection("record_types");
 
-RecordTypes.attachSchema new SimpleSchema 
+RecordTypes._simpleSchema = new SimpleSchema 
 	title:  
 		type: String
 	description:  
 		type: String
 
+RecordTypes.attachSchema RecordTypes._simpleSchema
+
+if Meteor.isClient
+	RecordTypes._simpleSchema.i18n("record_types")
 
 if (Meteor.isServer) 
 	RecordTypes.allow 
