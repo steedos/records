@@ -1,0 +1,33 @@
+{
+  "public": {
+  },
+  "records_qhd":{
+	"spaces": ["55090bbe527eca33d8000fe0"],
+	"archive_server": "http://192.168.0.243",
+	"contract_instances":{
+	  	"flows": ["249C041D-245A-418D-A2EC-73B8C6708C22"],
+	  	"to_archive_api": "/archive/rpc/archive_attach.jsp?flowfileId=",
+	  	"field_map":{
+		  "FILETABLE_NAME": "",
+		  "FILEEXT": "",
+		  "useridinfo": "",
+		  "FILESIZE": "",
+		  "fileNameinfo": "",
+		  "FONDSID": "record_fond",
+		  "hetongbianhao": "合同编号",
+		  "TITLE_PROPER": "合同名称",
+		  "chengbandanwei": "承办单位",
+		  "hetongleixing": "合同类型",
+		  "biaodijine": "价款酬金",
+		  "qiandingriqi": "签订日期",
+		  "beizhu": "备注",
+		  "daoqiriqi": "终止日期",
+		  "fileID": "",
+		  "duifangdanwei": "对方单位"
+		}
+	},
+	"non_contract_instances":{
+	  "to_archive_api": "/archive/rpc/archive_test_attach.jsp?flowfileId="
+	}
+  }
+}
