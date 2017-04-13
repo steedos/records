@@ -1,19 +1,20 @@
 FormData = Npm.require('form-data');
 FS = Npm.require('fs');
+request = Npm.require('request')
 
-InstancesToArchive = (spaces, archive_server, to_archive_api, contract_flows, field_map) ->
+InstancesToArchive = (spaces, archive_server, to_archive_api, contract_flows) ->
 	@spaces = spaces
 	@archive_server = archive_server
 	@to_archive_api = to_archive_api
 	@contract_flows = contract_flows
-	@field_map = field_map
+	return
 
 InstancesToArchive::getContractInstances = ()->
 	return db.instances.find({
 		space: {$in: @spaces},
 		flow: {$in: @contract_flows},
 		is_archived: false,
-		is_delete: false,
+		is_deleted: false,
 		state: "completed",
 		final_decision: "approved"
 	});
@@ -23,19 +24,42 @@ InstancesToArchive::getNonContractInstances = ()->
 		space: {$in: @spaces},
 		flow: {$nin: @contract_flows},
 		is_archived: false,
-		is_delete: false,
+		is_deleted: false,
 		state: "completed",
 		final_decision: "approved"
 	});
 
-InstancesToArchive._postFormData = (formData) ->
-	ulr = @archive_server + @to_archive_api
-	formData.submit url, (error, response)->
-		console.log response.statusCode
+InstancesToArchive._postFormData = (url, formData) ->
+	console.log url
+#	formData.submit params, (error, response)->
+#		if error
+#			console.log "error is"
+#			console.log error
+#		if response
+#			console.log "response is"
+#			console.error response.statusCode
 
-InstancesToArchive::sendContractInstances = ()->
+	request.post {
+		url: url
+		formData: formData
+	}, (err, httpResponse, body) ->
+		if err
+			return console.error('upload failed:', err)
+		console.log 'Upload successful!  Server responded with:', body
+		return
+
+InstancesToArchive::sendContractInstances = (field_map)->
+
 	instances = @getContractInstances()
-	instances.fetch().forEach (instance)->
+	console.log "instances count is #{instances.count()}"
+
+	that = @
+
+	instances.fetch().forEach (instance, i)->
+		if i != 0
+			return;
+		console.log "instance name is #{instance.name}"
+		url = that.archive_server + that.to_archive_api + '?instanceId=' + instance._id
 	#	原文
 
 	#	正文
@@ -43,29 +67,43 @@ InstancesToArchive::sendContractInstances = ()->
 	#	附件
 
 	#	表单数据
-		formData = new FormData();
+#		formData = new FormData();
+		formData = {}
+#		formData.my_logo = request('http://nodejs.org/images/logo.png');
 
 		fieldsValues = instance.values
 
-		fieldNames = _.keys(@field_map)
+		console.log fieldsValues
+
+		console.log fieldsValues['record_fond']
+
+		fieldNames = _.keys(field_map)
 
 		fieldNames.forEach (fieldName)->
-			key = @field_map[fieldName]
-			switch key
-				when 'fileID'
-					formData.append(key, instance._id);
-				when 'FILETABLE_NAME'
-					console.log("key is #{key}")
-				when 'FILEEXT'
-					console.log("key is #{key}")
-				when 'useridinfo'
-					console.log("key is #{key}")
-				when 'FILESIZE'
-					console.log("key is #{key}")
-				when 'fileNameinfo'
-					console.log("key is #{key}")
-				else
-					formData.append(fieldName, fieldsValues[key]);
+			key = field_map[fieldName]
 
-		InstancesToArchive._postFormData(formData)
+			fieldValue = fieldsValues[key]
+
+			console.info "key is #{key}, fieldName is #{fieldName}, fieldValue is #{fieldValue}"
+
+			switch fieldName
+				when 'fileID'
+					fieldValue = instance._id
+				when 'FILETABLE_NAME'
+					fieldValue = ""
+				when 'FILEEXT'
+					fieldValue = ""
+				when 'useridinfo'
+					fieldValue = ""
+				when 'FILESIZE'
+					fieldValue = ""
+				when 'fileNameinfo'
+					fieldValue = ""
+
+			formData[fieldName] = encodeURI(fieldValue)
+
+		console.log "formData is "
+		console.log formData
+
+		InstancesToArchive._postFormData(url, formData);
 

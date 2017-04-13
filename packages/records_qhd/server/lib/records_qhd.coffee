@@ -13,6 +13,6 @@ RecordsQHD.contractInstanceToArchive = ()->
 
 	field_map = records_qhd_sett.contract_instances.field_map
 
-	instancesToArchive = new InstancesToArchive(spaces, archive_server, to_archive_api, flows, field_map)
+	instancesToArchive = new InstancesToArchive(spaces, archive_server, to_archive_api, flows)
 
-	instancesToArchive.sendContractInstances()
+	instancesToArchive.sendContractInstances(field_map)

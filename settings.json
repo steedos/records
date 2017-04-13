@@ -2,11 +2,11 @@
   "public": {
   },
   "records_qhd":{
-	"spaces": ["55090bbe527eca33d8000fe0"],
+	"spaces": ["52ba669333490464b4000065"],
 	"archive_server": "http://192.168.0.243",
 	"contract_instances":{
-	  	"flows": ["249C041D-245A-418D-A2EC-73B8C6708C22"],
-	  	"to_archive_api": "/archive/rpc/archive_attach.jsp?flowfileId=",
+	  	"flows": ["70bff026ca2487f713e6f657"],
+	  	"to_archive_api": "/archive/rpc/archive_attach.jsp",
 	  	"field_map":{
 		  "FILETABLE_NAME": "",
 		  "FILEEXT": "",

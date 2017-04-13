@@ -6,7 +6,8 @@ Package.describe({
 });
 
 Npm.depends({
-	'form-data': '2.1.4'
+	'form-data': '2.1.4',
+	'request'  : '2.81.0'
 });
 
 Package.onUse(function (api) {
