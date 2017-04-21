@@ -1,5 +1,4 @@
 #import Tabular from 'meteor/aldeed:tabular';
-
 @RecordTypes = new Mongo.Collection("record_types");
 
 RecordTypes._simpleSchema = new SimpleSchema 
