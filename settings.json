@@ -34,7 +34,7 @@
 	}
   },
   "elasticsearch":{
-  	"es_server":["http://localhost:9200"],
+  	"es_server":"http://localhost:9200",
   	"sync_interval":60000
   }
 }
