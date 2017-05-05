@@ -1,4 +1,4 @@
-# @search_route=Meteor.settings.records_search_api.search_route
+# search_route=Meteor.settings.records_search_api.search_route
 search_route='http://localhost:3000/records/:search'
 # 获取工作区
 index='steedos'

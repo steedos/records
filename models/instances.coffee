@@ -1,5 +1,4 @@
-# import { Mongo } from 'meteor/mongo'
-# @Instances = new Mongo.Collection('instances')
+import { Mongo } from 'meteor/mongo'
 
 # if (Meteor.isServer) 
 # 	Instances.allow 
