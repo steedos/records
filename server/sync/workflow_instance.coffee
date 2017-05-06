@@ -10,16 +10,7 @@ import { HTTP } from 'meteor/http'
 # Meteor.startup ()->
 # 	Meteor.setInterval(Records.syncInstances,Meteor.settings.elasticsearch.sync_interval)
 
-
-
-# 同步任务主函数
-Records.syncInstances=()->
-  	#TODO 确认查询条件是否合理
-	instances=db.instances.find(
-		{'is_recorded':false},
-		limit:1,
-		sort: { 'modified': 1 }
-	)
+_syncInstances = (instances)->
 	instances.forEach (instance)->
 		tracesArr=instance.traces
 		index='steedos'
@@ -29,8 +20,19 @@ Records.syncInstances=()->
 		delete instance.traces
 		delete instance._id
 		delete instance.attachments
+		if instance.values
+			instance.values = JSON.stringify instance.values
 		instanceObj=instance
-		console.log instanceObj
+
+		instanceObj.attachments = []
+		# attachObj = {
+		# 	cfs_id:'',
+		# 	cfs_owner_name:'',
+		# 	cfs_title:'',
+		# 	cfs_file:''
+		# }
+		# instanceObj.attachments.push attachObj
+		# console.log instanceObj
 		try
 			result = HTTP.call(
 				'POST', ping_instance_url,
@@ -38,10 +40,12 @@ Records.syncInstances=()->
 			)
 			db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
 			#同步的时间添加到数据库中
+
+			Attachment.syncAttachments(instance_id)
 		catch e
 			console.log e+'  instances error  '+instance_id
 
-		循环traces下面的approves数组
+		# 循环traces下面的approves数组
 		tracesArr.forEach (trace)->
 			if trace.approves.length
 				approveObj=trace.approves[0]
@@ -60,58 +64,27 @@ Records.syncInstances=()->
 					console.log e+'  approves error  '+instance_id
 	
 
+
+
+# 同步任务主函数
+Records.syncInstances=()->
+  	#TODO 确认查询条件是否合理
+	instances=db.instances.find(
+		{'is_recorded':false},
+		limit:1,
+		sort: { 'modified': 1 }
+	)
+	_syncInstances instances
+
 # 第一次初始化ES
 Records.buildIndex=()->
 	i=0
 	while(i<1)
 		i++
 		skip_num=i*1
-		instances=db.instances.find({'_id':'53a6a38b3349045c050038c4'},
-			limit:1,
-			skip:skip_num
+		instances=db.instances.find({'_id':'52a7f5b9334904787b0018f3'}
 		)
-		instances.forEach (instance)->
-			# console.log instance._id
-			tracesArr=instance.traces
-			index='steedos'
-			instance_type='instances'
-			instance_id=instance._id
-			ping_instance_url=es_server+'/'+index+'/'+instance_type+'/'+instance_id
-			delete instance.traces
-			delete instance._id
-			delete instance.attachments
-			delete instance.is_recorded
-			if instance.values
-				instance.values=JSON.stringify(instance.values)
-			instanceObj=instance
-			try
-				result = HTTP.call(
-					'POST', ping_instance_url,
-					{data: instanceObj}
-				)
-				db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
-			catch e
-				console.log e+'  instances error  '+instance_id
-
-			#循环traces下面的approves数组
-			
-			tracesArr.forEach (trace)->
-				if trace.approves&&trace.approves.length
-					approveObj=trace.approves[0]
-					approve_type='approves'
-					approve_id=approveObj._id
-					ping_approve_url=es_server+'/'+index+'/'+approve_type+'/'+approve_id
-					delete approveObj._id
-					delete approveObj.values
-					delete approveObj.next_steps
-					try
-						result = HTTP.call(
-							'POST', ping_approve_url,
-							{data: approveObj}
-						)
-					catch e
-						console.log e+'  approves error  '+instance_id
-		console.log i
+		_syncInstances instances
 		
 
 # 同步问题解决测试方案
@@ -121,42 +94,4 @@ Records.syncTest=()->
 		limit:1,
 		sort: { 'modified': 1 }
 	)
-	instances.forEach (instance)->
-		tracesArr=instance.traces
-		index='steedos'
-		instance_type='instances'
-		instance_id=instance._id
-		ping_instance_url=es_server+'/'+index+'/'+instance_type+'/'+instance_id
-		delete instance.traces
-		delete instance._id
-		delete instance.attachments
-		if instance.values
-				instance.values=JSON.stringify(instance.values)
-			instanceObj=instance
-			try
-				result = HTTP.call(
-					'POST', ping_instance_url,
-					{data: instanceObj}
-				)
-				db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
-			catch e
-				console.log e+'  instances error  '+instance_id
-
-			#循环traces下面的approves数组
-			
-			tracesArr.forEach (trace)->
-				if trace.approves&&trace.approves.length
-					approveObj=trace.approves[0]
-					approve_type='approves'
-					approve_id=approveObj._id
-					ping_approve_url=es_server+'/'+index+'/'+approve_type+'/'+approve_id
-					delete approveObj._id
-					delete approveObj.values
-					delete approveObj.next_steps
-					try
-						result = HTTP.call(
-							'POST', ping_approve_url,
-							{data: approveObj}
-						)
-					catch e
-						console.log e+'  approves error  '+instance_id
+	_syncInstances instances

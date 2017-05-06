@@ -1,11 +1,11 @@
-import { HTTP } from 'meteor/http'
+# import { HTTP } from 'meteor/http'
 @Attachment = {}
 cfs_instance = new Mongo.Collection('cfs.instances.filerecord')
 request = Npm.require('request')
 fs =  require('fs')
 path = require('path')
+mkdirp = require('mkdirp')
 execSync = require('child_process').execSync
-
 # 同步附件
 # TODO
 #  1、获取附件：cfs_instance = new Mongo.Collection("cfs.instances.filerecord");
@@ -20,7 +20,7 @@ execSync = require('child_process').execSync
 
 #  附件下载地址：Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.original.name)
 Attachment.syncAttachments=()->
-	cfs_instances=cfs_instance.find({'metadata.instance': '53a6a38b3349045c050038c4'})
+	cfs_instances=cfs_instance.find({'metadata.instance': '52a7f5b9334904787b0018f3'})
 	cfs_instances.forEach (cfs_file)->
 		downloadFile(cfs_file)
 
@@ -28,30 +28,27 @@ Attachment.syncAttachments=()->
 downloadFile=(cfs_file)->
 	# 附件地址
 	url = Meteor.absoluteUrl("api/files/instances/") + cfs_file._id + "/" + encodeURI(cfs_file.original.name)
-	# 附件名称
-	fileName = cfs_file.original.name
+	
 	# 附件下载到本地地址{space}\{instance_id}\{cfs_id}.doc
-	filePath = path.format({
-		dir : path.join(Meteor.settings.records.txt_file_path,cfs_file.metadata.space, cfs_file.metadata.instance),
-		base : cfs_file._id + path.extname(fileName)
-		})
+	if !filePath && __meteor_bootstrap__ && __meteor_bootstrap__.serverDir
+		filePath = path.join(__meteor_bootstrap__.serverDir, "../../../records/files/#{cfs_file.metadata.space}/#{cfs_file.metadata.instance}");
+		# filePath = path.format({
+		# 	dir : path.join(__meteor_bootstrap__.serverDir,'..','..','..','records','files'),
+		# 	base : cfs_file._id + path.extname(fileName)
+		# 	})
+	# 判断路径是否创建成功
+	if !filePath
+    	throw new Error 'FS.Store.FileSystem unable to determine path'
 
-	# console.log url
-	console.log filePath
-
-	# 路径初始化不存在,创建路径
-	i=0
+	# 路径不存在,创建对应的文件夹
 	if !fs.existsSync filePath
-		dirArr = path.dirname(filePath).split('\\')
-		tempPath = ''
-		for dir in dirArr
-			if dir
-				tempPath += dir
-				existPath = fs.existsSync tempPath
-				if !existPath
-					fs.mkdirSync tempPath
-				tempPath += '\\'
-	stream = fs.createWriteStream(filePath,{encoding:'utf8'})
+		mkdirp.sync(filePath)
+	# 附件名称
+	fileName = cfs_file._id + path.extname(cfs_file.original.name)
+
+	fileAddress = path.join(filePath, fileName)
+
+	stream = fs.createWriteStream fileAddress,{encoding:'utf8'}
 	request.get({
 	  url: url,
 	  headers: {
@@ -60,7 +57,7 @@ downloadFile=(cfs_file)->
 	}).pipe(stream)
 
 	stream.on 'close', Meteor.bindEnvironment ()->
-		converterFile(cfs_file, filePath)
+		converterFile cfs_file,fileAddress
 
 # 判断转换附件转换的类型
 isConvertibleType = (extname)->
@@ -88,9 +85,7 @@ converterFile = (cfs_file, filePath)->
 		# console.log cmd
 		try
 			execSync cmd,{encoding: 'utf8'}
-			
 			fs.unlinkSync filePath
-			
 			readFile(cfs_file,converterPath)
 		catch e
 			console.log e
@@ -99,51 +94,36 @@ converterFile = (cfs_file, filePath)->
 # 读取转换后的txt文件信息
 readFile=(cfs_file,converterPath)->
 	readStream = fs.readFileSync converterPath,{encoding:'utf8'}
-	# readStream.on 'open',(fd)->
-	# 	console.log '文件已打开'
-	# readStream.on 'data',(data)->
-	# console.log readStream
-	# toString后面必须加（），不然会报错
 	content = readStream.toString().substring 1
-	# console.log content
-	# 将获取的content存到ES中
 	index='steedos'
 	instance_type='instances'
 	instance_id = cfs_file.metadata.instance
-	ping_url=es_server+'/'+index+'/'+instance_type+'/'+instance_id
-	# HTTP.call('GET',ping_url,{}, (error, result)->
-	# 	if !error
-	# 		console.log result
-	# )
-	# 先判断ES中是否存在该申请单
-	# try
-	# 	result = HTTP.call('GET', 'http://localhost:9200/steedos/instances/54d70b00527eca5fbc009c51')
-	# 	console.log result
-	# catch e
-	# 	console.log e + ' not found'
-
-
-
-	ping_attachment_url=ping_url
-	# console.log ping_attachment_url
-
-	attachment = {
+	ping_url = es_server + '/' + index + '/' + instance_type + '/' + instance_id
+	attachObj = {
 		cfs_id:cfs_file._id,
 		cfs_owner_name:cfs_file.metadata.owner_name,
 		cfs_title:cfs_file.original.name,
 		cfs_file:content
 	}
-	strattch = JSON.stringify attachment
+	# attchment = JSON.stringify attachObj
+	console.log attachObj
+	_updateAttach(ping_url, attachObj)
 
-	_post(ping_attachment_url, strattch)
-
-_post = (ping_attachment_url, strattch) ->
-	console.log ping_attachment_url
-	console.log strattch
+_updateAttach = (ping_url, attchment) ->
+	console.log ping_url
+	data = {
+		# "script" : 'ctx._source.attachment = "'+ attchment.cfs_file + '"'
+		"script" : {
+			"inline":'ctx._source.attachments.add(params.data)',
+			"lang": "painless",
+			"params":{
+				data:attchment
+				}
+		}
+	}
 	try
 		result = HTTP.call(
-				'POST', ping_attachment_url,
-				{data: strattch}
+				'POST', ping_url + '/' + '_update',{data:data}
 			)
 	catch e
 		console.log e + "result is #{result}"
