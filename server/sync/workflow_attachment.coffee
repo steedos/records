@@ -8,20 +8,19 @@ mkdirp = require('mkdirp')
 execSync = require('child_process').execSync
 # 同步附件
 # TODO
-#  1、获取附件：cfs_instance = new Mongo.Collection("cfs.instances.filerecord");
-#             	cfs_instance
-# 				cfs_instance.find({'metadata.instance': '5359bfb533490418ab006160'})
 #  2、下载附件：下载完成后才可执行第3步，下载可能报错，如何处理?
 #				获取附件的地址 
 #				Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.original.name)
 
 #  3、转换附件：转换可能报错，如何处理?
-#  4、上传附件
 
 #  附件下载地址：Meteor.absoluteUrl("api/files/instances/") + f._id + "/" + encodeURI(f.original.name)
-Attachment.syncAttachments=()->
-	cfs_instances=cfs_instance.find({'metadata.instance': '52a7f5b9334904787b0018f3'})
+Attachment.syncAttachments=(instance_id)->
+	cfs_instances=cfs_instance.find({'metadata.instance': instance_id, 'original.type': {$in: ['application/msword']}})
 	cfs_instances.forEach (cfs_file)->
+		# TODO	1.生成转化路径
+		# 		2.判断转化后的txt文件是否存在：存在则直接调用read方法，否则down方法
+		# 		
 		downloadFile(cfs_file)
 
 # 下载文件

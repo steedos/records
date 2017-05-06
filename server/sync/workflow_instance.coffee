@@ -25,14 +25,6 @@ _syncInstances = (instances)->
 		instanceObj=instance
 
 		instanceObj.attachments = []
-		# attachObj = {
-		# 	cfs_id:'',
-		# 	cfs_owner_name:'',
-		# 	cfs_title:'',
-		# 	cfs_file:''
-		# }
-		# instanceObj.attachments.push attachObj
-		# console.log instanceObj
 		try
 			result = HTTP.call(
 				'POST', ping_instance_url,
@@ -76,15 +68,21 @@ Records.syncInstances=()->
 	)
 	_syncInstances instances
 
+	
+
 # 第一次初始化ES
 Records.buildIndex=()->
+	console.time "Records.syncInstances"
 	i=0
-	while(i<1)
+	# 动态查询总数
+	total = db.instances.find({'is_recorded':false}).count()
+	times = parseInt total/10+1
+	while(i<times)
 		i++
-		skip_num=i*1
-		instances=db.instances.find({'_id':'52a7f5b9334904787b0018f3'}
-		)
+		skip_num=i*10
+		instances=db.instances.find {"is_recorded":false,""},limit:skip_num
 		_syncInstances instances
+	console.timeEnd "Records.syncInstances"
 		
 
 # 同步问题解决测试方案

@@ -26,19 +26,60 @@ Template.search_records_repository.onRendered ->
 		'autoWidth': false,#不自动计算列宽度
 		'serverSide': true,
 		'columns': [
-			{ 'data': '_source.name'},
-			{ 'data': '_type'},
-			{ 'data': '_source.submitter_name'}
+			{ 
+				'data': '_source.name',
+				render: (val, type, doc) ->
+
+					url = "http://192.168.0.21/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
+
+					title = doc.highlight?.name?.join("...") || doc?._source?.name
+
+					highlight = doc.highlight?.values?.join("...") || doc.highlight?.attachments?.join("...")
+
+					if !highlight
+						highlight = doc?._source?.values
+
+					date = ""
+
+					if doc?._source?.modified
+						modified = new Date(doc._source.modified)
+						date = modified.getFullYear() + "-" + (modified.getMonth() + 1) + "-" + modified.getDay()
+
+					return """
+						<li class="b_algo" data-bm="6">
+							<h3>
+								<a target="_blank" href="#{url}">
+									#{title}
+								</a>
+							</h3>
+							<div class="b_caption">
+								<p>#{highlight}</p>
+								<div class="b_attribution">
+									<cite>#{url}</cite>
+									<a href="#" aria-haspopup="true">
+										<span class="c_tlbxTrg">
+											<span class="c_tlbxTrgIcn sw_ddgn"></span>
+											<span class="c_tlbxH" ></span>
+										</span>
+									</a>#{date}
+								</div>
+							</div>
+						</li>
+					"""
+			}
 		],
 		# 高版本datatables插件的服务器端分页方法
 		'ajax': {
-			type: 'GET',
+			type: 'get',
 			url: ajaxUrl,
 			dataType: 'json'
-		}
+		},
 		# 创建行时候改变行的样式，调样式在这里写
-		# 'createdRow': ( row, data, index )->
-		# 	console.log data
+		'createdRow': ( row, data, index )->
+			row.removeAttribute("class")
+
+			
+			
 
 		####################################################
 		# 低版本datatables插件的服务器端分页方法
