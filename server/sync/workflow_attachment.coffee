@@ -105,7 +105,7 @@ readFile=(cfs_file,converterPath)->
 		cfs_file:content
 	}
 	# attchment = JSON.stringify attachObj
-	console.log attachObj
+	# console.log attachObj
 	_updateAttach(ping_url, attachObj)
 
 _updateAttach = (ping_url, attchment) ->

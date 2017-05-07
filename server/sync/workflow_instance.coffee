@@ -12,6 +12,7 @@ import { HTTP } from 'meteor/http'
 
 _syncInstances = (instances)->
 	instances.forEach (instance)->
+		console.log '开始同步表单：'+instance._id
 		tracesArr=instance.traces
 		index='steedos'
 		instance_type='instances'
@@ -39,7 +40,7 @@ _syncInstances = (instances)->
 
 		# 循环traces下面的approves数组
 		tracesArr.forEach (trace)->
-			if trace.approves.length
+			if tracesArr && trace.approves.length
 				approveObj=trace.approves[0]
 				approve_type='approves'
 				approve_id=approveObj._id
@@ -80,7 +81,7 @@ Records.buildIndex=()->
 	while(i<times)
 		i++
 		skip_num=i*10
-		instances=db.instances.find {"is_recorded":false,""},limit:skip_num
+		instances=db.instances.find {"is_recorded":false},limit:skip_num
 		_syncInstances instances
 	console.timeEnd "Records.syncInstances"
 		
