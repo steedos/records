@@ -5,6 +5,7 @@ index='steedos'
 type='instances'
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
+		$('.table-responsive').css 'display', 'initial'
 		seatch_txt=$('.txt-search.form-control').val()+''
 		ajaxUrl=search_route+'?index='+index+'&type='+type+'&q='+seatch_txt
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
@@ -29,17 +30,21 @@ Template.search_records_repository.onRendered ->
 			{ 
 				'data': '_source.name',
 				render: (val, type, doc) ->
-
+					console.log doc
 					url = "http://192.168.0.21/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
 
 					title = doc.highlight?.name?.join("...") || doc?._source?.name
 
 					highlight = doc.highlight?.values?.join("...") || doc.highlight?.attachments?.join("...")
 
+					applicant_name = doc?._source?.applicant_name
+
+
+
 					if !highlight
 						highlight = doc?._source?.values
 
-					date = ""
+					date = ''
 
 					if doc?._source?.modified
 						modified = new Date(doc._source.modified)
@@ -55,7 +60,9 @@ Template.search_records_repository.onRendered ->
 							<div class="b_caption">
 								<p>#{highlight}</p>
 								<div class="b_attribution">
-									<cite>#{url}</cite>
+									<cite>
+										</i>#{applicant_name}
+									</cite>
 									<a href="#" aria-haspopup="true">
 										<span class="c_tlbxTrg">
 											<span class="c_tlbxTrgIcn sw_ddgn"></span>
