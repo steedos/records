@@ -3,18 +3,18 @@ search_route='http://localhost:3000/records/:search'
 # 获取工作区
 index='steedos'
 type='instances'
+Url=search_route+'?index='+index+'&type='+type
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
+		userId = Meteor.userId()
 		seatch_txt=$('.txt-search.form-control').val()+''
 		if seatch_txt=='' || seatch_txt==null
 			return
 		$('.table-responsive').css 'display', 'initial'
-		ajaxUrl=search_route+'?index='+index+'&type='+type+'&q='+seatch_txt
+		ajaxUrl = Url+'&q='+seatch_txt+'&userId='+userId
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
 Template.search_records_repository.onRendered ->
-	seatch_txt=$('.txt-search.form-control').val()+''
-	ajaxUrl=search_route+'?index='+index+'&type='+type+'&q='+seatch_txt
 	$('.table-records-result').dataTable({
 		'paginate': true, #翻页功能
 		'lengthChange': false, #改变每页显示数据数量
@@ -24,7 +24,7 @@ Template.search_records_repository.onRendered ->
 		'processing': true,
 		'language': {
 			'thousands': ','    #千级别的数据显示格式
-		}
+		},
 		'pageLength':10,
 		'autoWidth': false,#不自动计算列宽度
 		'serverSide': true,
@@ -32,7 +32,6 @@ Template.search_records_repository.onRendered ->
 			{ 
 				'data': '_source.name',
 				render: (val, type, doc) ->
-					console.log doc
 					url = "http://192.168.0.21/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
 
 					title = doc.highlight?.name?.join("...") || doc?._source?.name
@@ -80,7 +79,7 @@ Template.search_records_repository.onRendered ->
 		# 高版本datatables插件的服务器端分页方法
 		'ajax': {
 			type: 'get',
-			url: ajaxUrl,
+			url: Url,
 			dataType: 'json'
 		},
 		# 创建行时候改变行的样式，调样式在这里写

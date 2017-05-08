@@ -9,9 +9,10 @@ Meteor.startup ->
 		from=req.query.start+""  #string型
 		size=req.query.length+""  #string型,默认是10
 		q=req.query.q+""
-		# console.log q
+		userId=req.query.userId
+		# console.log userId
 		if req.query.q==""||req.query.q==null
-			q="*"
+			q=""
 		query_url=address+"/"+index+"/"+type+"/_search"
 		
 		data = {
@@ -45,7 +46,8 @@ Meteor.startup ->
 						"match": {
 							"users": {
 								# 用户ID
-								"query": "5474355f527eca77fc00c25d",
+								# "query": "#{userId}",
+								"query": "5474355f527eca77fc00c25d"
 								"type": "phrase"
 							}
 						}
