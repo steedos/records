@@ -9,7 +9,7 @@
         <!-- <li class="header"></li> -->
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Records</span>
+            <i class="fa fa-dashboard"></i> <span>{{_ "records_info_records"}}</span>
             <span class="pull-right-container">
             </span>
             <span class="pull-right-container">
@@ -17,12 +17,14 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/search/records_repository"><i class="fa fa-circle-o"></i> Record Repository </a></li>
+            <li><a href="/search/records_repository"><i class="fa fa-circle-o"></i>
+                {{_ "records_records_repository"}}
+            </a></li>
           </ul>
         </li>
         <li class="treeview">
           <a href="#">
-            <i class="fa fa-dashboard"></i> <span>Settings</span>
+            <i class="fa fa-dashboard"></i> <span>{{_ "records_info_settings"}}</span>
             <span class="pull-right-container">
             </span>
             <span class="pull-right-container">
@@ -30,7 +32,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="/admin/record_types"><i class="fa fa-circle-o"></i> Record Types</a></li>
+            <li><a href="/admin/record_types"><i class="fa fa-circle-o"></i>
+            {{_ "records_records_types"}}</a></li>
           </ul>
         </li>
       </ul>

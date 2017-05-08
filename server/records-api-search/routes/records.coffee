@@ -15,18 +15,44 @@ Meteor.startup ->
 		query_url=address+"/"+index+"/"+type+"/_search"
 		
 		data = {
+			# "query": {
+			# 	"multi_match": {
+			# 		"query": "#{q}",
+			# 		"type": "cross_fields",
+			# 		"fields": [
+			# 			"name",
+			# 			"values",
+			# 			"attachments.cfs_*"
+			# 		],
+			# 		"operator": "or"
+			# 	}
+			# }
 			"query": {
-				"multi_match": {
-					"query": "#{q}",
-					"type": "cross_fields",
-					"fields": [
-						"name",
-						"values",
-						"attachments.cfs_*"
-					],
-					"operator": "or"
+				"bool" : {
+					"must" : {
+						"multi_match": {
+							"query": "#{q}",
+							"type": "cross_fields",
+							"fields": [
+								"name",
+								"values",
+								"attachments.*"
+							],
+							"operator": "or"
+						}
+					},
+					"filter" : {
+						"match": {
+							"users": {
+								# 用户ID
+								"query": "5474355f527eca77fc00c25d",
+								"type": "phrase"
+							}
+						}
+					}
 				}
-			},
+			}
+			,
 			"sort": { "modified": { "order": "desc" }},
 			"highlight": {
 				"pre_tags":["<strong>"],
@@ -34,7 +60,7 @@ Meteor.startup ->
 				"fields": {
 					"name":{},
 					"values": {},
-					"attachments.cfs_*": {}
+					"attachments.*": {}
 				}
 			}
 		};

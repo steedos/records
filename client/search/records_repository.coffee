@@ -5,8 +5,10 @@ index='steedos'
 type='instances'
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
-		$('.table-responsive').css 'display', 'initial'
 		seatch_txt=$('.txt-search.form-control').val()+''
+		if seatch_txt=='' || seatch_txt==null
+			return
+		$('.table-responsive').css 'display', 'initial'
 		ajaxUrl=search_route+'?index='+index+'&type='+type+'&q='+seatch_txt
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
