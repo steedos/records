@@ -1,15 +1,17 @@
 {
-  "public": {
-  	"records_search_api":{
-  		"search_route":"http://localhost:3000/records/:search"
-  	}
-  },
-  "records":{
-  	"txt_file_path": "D:\\records\\attach",
-    "office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe"
-  },
-  "elasticsearch":{
-  	"es_server":"http://localhost:9200",
-  	"sync_interval":60000
+	"public": {
+		"webservices": {
+			"elasticsearch":{
+				"status": "active",
+				"url":"http://localhost:9200"
+			}
+		}
+	},
+	"records":{
+		"office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe",
+
+		"sync_interval":60000,
+
+		"es_search_index": "steedos"
   }
 }

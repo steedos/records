@@ -1,17 +1,18 @@
-# search_route=Meteor.settings.records_search_api.search_route
-search_route='http://localhost:3000/records/:search'
-# 获取工作区
-index='steedos'
-type='instances'
-Url=search_route+'?index='+index+'&type='+type
+userId = Meteor.userId()
+
+records_search_api = Meteor.absoluteUrl("records/search?userId=#{userId}&q=")
+
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
-		userId = Meteor.userId()
-		seatch_txt=$('.txt-search.form-control').val()+''
-		if seatch_txt=='' || seatch_txt==null
+		seatch_txt=$('.txt-search.form-control').val()
+
+		if !seatch_txt
 			return
+
 		$('.table-responsive').css 'display', 'initial'
-		ajaxUrl = Url+'&q='+seatch_txt+'&userId='+userId
+
+		ajaxUrl = records_search_api+seatch_txt
+
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
 Template.search_records_repository.onRendered ->
@@ -79,34 +80,11 @@ Template.search_records_repository.onRendered ->
 		# 高版本datatables插件的服务器端分页方法
 		'ajax': {
 			type: 'get',
-			url: Url,
+			url: records_search_api,
 			dataType: 'json'
 		},
 		# 创建行时候改变行的样式，调样式在这里写
 		'createdRow': ( row, data, index )->
 			row.removeAttribute("class")
 
-			
-			
-
-		####################################################
-		# 低版本datatables插件的服务器端分页方法
-		# 'sAjaxSource':search_route,
-		# 'fnServerData': (sSource, aoData, fnCallback)->
-		# 	console.log JSON.stringify(aoData)
-		# 	console.log JSON.stringify(sSource)
-		# 	$.ajax({
-		# 		'type': 'get', 
-		# 		'contentType': 'application/json', 
-		# 		'url': sSource, 
-		# 		'dataType': 'json', 
-		# 		'data': (auto)->
-		# 			aoData:JSON.stringify(aoData)
-		# 			auto.push('key1','value1')
-		# 		}, #以json格式传递
-		# 		'success': (resp)->
-		# 			console.log JSON.stringify(resp)
-		# 			fnCallback(resp) 
-		# 	})
-		####################################################
 	})

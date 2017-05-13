@@ -1,33 +1,25 @@
-Meteor.startup ->
-	JsonRoutes.add "get", "/records/:search", (req, res, next) ->
+Meteor.startup ()->
+	JsonRoutes.add "get", "/records/search", (req, res, next) ->
 		#传入的参数  ----  draw：直接返回|columns:列|start:开始|length：页长度|...|自定义参数...
 		#从ES中查询数据
-		# console.log req
-		address="http://localhost:9200"
-		index=req.query.index
-		type=req.query.type
-		from=req.query.start+""  #string型
-		size=req.query.length+""  #string型,默认是10
-		q=req.query.q+""
-		userId=req.query.userId
-		# console.log userId
+		jsonData={
+			"draw":0,
+			"recordsTotal":0,
+			"recordsFiltered":0,
+			"data":[]
+		}
 		if req.query.q==""||req.query.q==null
-			q=""
+			JsonRoutes.sendResult res,data:jsonData
+			return
+		address=es_server
+		index=Meteor.settings.records.es_search_index
+		type="instances"
+		from=req.query.start+""
+		size=req.query.length+""
+		userId=req.query.userId
+		q=req.query.q+""
 		query_url=address+"/"+index+"/"+type+"/_search"
-		
 		data = {
-			# "query": {
-			# 	"multi_match": {
-			# 		"query": "#{q}",
-			# 		"type": "cross_fields",
-			# 		"fields": [
-			# 			"name",
-			# 			"values",
-			# 			"attachments.cfs_*"
-			# 		],
-			# 		"operator": "or"
-			# 	}
-			# }
 			"query": {
 				"bool" : {
 					"must" : {
@@ -45,16 +37,14 @@ Meteor.startup ->
 					"filter" : {
 						"match": {
 							"users": {
-								# 用户ID
-								# "query": "#{userId}",
-								"query": "5474355f527eca77fc00c25d"
+								"query": "#{userId}",
+								# "query": "519978e28e296a2fef000012",
 								"type": "phrase"
 							}
 						}
 					}
 				}
-			}
-			,
+			},
 			"sort": { "modified": { "order": "desc" }},
 			"highlight": {
 				"pre_tags":["<strong>"],
@@ -66,13 +56,7 @@ Meteor.startup ->
 				}
 			}
 		};
-
 		params = {size:size,from:from}
-
-		# console.log "#{query_url}"
-
-		# console.log "#{JSON.stringify(data)}"
-
 		result=HTTP.call(
 			'POST',
 			query_url,
@@ -81,38 +65,12 @@ Meteor.startup ->
 				data: data
 			}
 		)
-		# console.log JSON.stringify(result)
-		jsonData={
-			"draw":0,
-			"recordsTotal":0,
-			"recordsFiltered":0,
-			"data":[]
-		}
 		if result.statusCode==200
 			srcData=result.data.hits
-			# console.log "111111"+JSON.stringify(srcData)
 			jsonData.recordsTotal=srcData.total
 			jsonData.recordsFiltered=srcData.total
 			jsonData.data=srcData.hits
 		else
 			jsonData.error="Network is error,Please try again!"
-
-		# console.log "222222"+JSON.stringify(jsonData)
-		# if result._shards.failed==0
-		#     data={
-		#         "draw":req.query.draw,
-		#         "recordsTotal":3,
-		#         "recordsFiltered":3,
-		#         "data":[],
-		#         "error":"Elasticsearch error,Please try again!"
-		#     }
-		# else
-		#     console.log result
-		#     data={
-		#         "draw":0,
-		#         "recordsTotal":0,
-		#         "data":[],
-		#         "error":"Elasticsearch error,Please try again!"
-		#     }
 		JsonRoutes.sendResult res,data:jsonData
 		return
