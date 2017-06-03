@@ -80,6 +80,7 @@ Package.onUse(function(api) {
     api.addFiles('client/router.coffee', 'client');
 
     api.addFiles('models/record_types.coffee');
+    api.addFiles('models/instances.coffee');
 
     api.addFiles('server/records-api-search/routes/records.coffee','server');
 
