@@ -1,1 +1,1 @@
-@db.instances = new Mongo.Collection("instances");
+@Instances = new Mongo.Collection("instances");
