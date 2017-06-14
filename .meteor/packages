@@ -43,7 +43,7 @@ meteorhacks:subs-manager
 
 steedos:adminlte@2.3.12_3
 steedos:base@0.0.13
-steedos:theme@0.0.11
+steedos:theme@0.0.13
 steedos:logger@0.0.2
 
 simple:json-routes@2.1.0

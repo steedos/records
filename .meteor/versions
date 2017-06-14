@@ -125,7 +125,7 @@ steedos:i18n@0.0.2
 steedos:logger@0.0.2
 steedos:records@0.0.1
 steedos:records-i18n@0.0.1
-steedos:theme@0.0.11
+steedos:theme@0.0.13
 tap:i18n@1.8.2
 templating@1.3.2
 templating-compiler@1.3.2
