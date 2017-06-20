@@ -19,3 +19,12 @@ Development Goals
 - 可以为用户划分单位，每个单位用户只能检索本单位的档案。
 - 可以为每一条数据设置权限，用户只能在权限范围内检索。
 - 可以设定档案类型，并为每种档案类型设置字段，并对自定义字段进行检索。
+
+
+部署前需要执行的命令
+- meteor npm install
+
+转化程序需要对以下文件夹有访问权限
+C:\Windows\SysWOW64\config\systemprofile
+C:\Windows\System32\config\systemprofile
+依次点击进入这两个文件夹
