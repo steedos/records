@@ -1,6 +1,3 @@
-npm install --global --production windows-build-tools
-npm install -g node-gyp
-
 meteor build --server https://cn.steedos.com/records --directory C:/records-build/
 cd C:/records-build/bundle/programs/server
 rm -rf node_modules
