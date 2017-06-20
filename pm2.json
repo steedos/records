@@ -1,0 +1,19 @@
+{
+        "apps": [{
+                "name": "records.0",
+                "max_memory_restart": "1024M",
+                "log_date_format": "YYYY-MM-DD HH:mm:ss SSS",
+                "script": "C:/records-build/bundle/main.js",
+                "out_file": "C:/records-build/log/app.log",
+                "error_file": "C:/records-build/log/err.log",
+                "port": "3000",
+                "env": {
+                        "MONGO_URL": "mongodb://192.168.0.21:27017/steedos",
+                        "MONGO_OPLOG_URL": "mongodb://localhost:27017/local",
+                        "MULTIPLE_INSTANCES_COLLECTION_NAME": "workflow_instances",
+                        "ROOT_URL": "http://localhost",
+                        "DDP_DEFAULT_CONNECTION_URL": "http://localhost",
+                        "PORT": "3000"
+                }
+        }]
+}
