@@ -36,7 +36,6 @@ downloadFunc=(cfs_file,filePath)->
 	fileName = cfs_file._id + path.extname(cfs_file.original.name)
 	downloadFile = path.join filePath, fileName
 	stream = fs.createWriteStream downloadFile,{encoding:'utf8'}
-	console.log url
 	request.get({
 		url: url
 	}).pipe(stream)
