@@ -10,8 +10,10 @@
 	"records":{
 		"office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe",
 
-		"sync_interval":60000,
+		"sync_interval":0,
 
-		"es_search_index": "steedos"
+		"es_search_index": "steedos",
+
+		"cfs_file_server": "https://qhd.steedos.com"
   }
 }
