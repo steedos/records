@@ -81,6 +81,7 @@ Package.onUse(function(api) {
 
     api.addFiles('models/record_types.coffee');
     api.addFiles('models/instances.coffee');
+    api.addFiles('models/attachments.coffee');
 
     api.addFiles('server/records-api-search/routes/records.coffee','server');
 

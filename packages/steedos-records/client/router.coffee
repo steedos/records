@@ -15,7 +15,7 @@ recordsSpaceRoutes.route '/',
 recordsSpaceRoutes.route '/admin/record_types',
 	action: (params, queryParams)->
 		BlazeLayout.render 'recordsLayout',
-			main: "admin_record_types"
+			# main: "admin_record_types"
 
 recordsSpaceRoutes.route '/search/records_repository',
 	action: (params, queryParams)->

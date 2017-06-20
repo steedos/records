@@ -1,5 +1,5 @@
 @Attachment = {}
-# logger = new Logger 'Records_ES_Attachment'
+logger = new Logger 'Records_ES_Attachment'
 request = Npm.require('request')
 mkdirp = Npm.require('mkdirp')
 fs = Npm.require('fs')
@@ -18,6 +18,7 @@ Attachment.syncAttachments=(instance_id)->
 	cfs_instances.forEach (cfs_file)->
 		if !filePath && __meteor_bootstrap__ && __meteor_bootstrap__.serverDir
 			filePath = path.join(__meteor_bootstrap__.serverDir, "../../../records/files/#{cfs_file.metadata.space}/#{cfs_file.metadata.instance}")
+		# console.log filePath
 		fileName = cfs_file._id+'.txt'
 		converterFile = path.join filePath,fileName
 		if fs.existsSync converterFile
@@ -26,7 +27,8 @@ Attachment.syncAttachments=(instance_id)->
 			downloadFunc cfs_file,filePath
 
 downloadFunc=(cfs_file,filePath)->
-	url = Meteor.absoluteUrl("api/files/instances/") + cfs_file._id + "/" + encodeURI(cfs_file.original.name)
+	fileserver = Meteor.settings.records.cfs_file_server
+	url = fileserver + "/api/files/instances/" + cfs_file._id + "/" + encodeURI(cfs_file.original.name)
 	if !fs.existsSync filePath
 		mkdirp.sync filePath
 	if !filePath
@@ -34,11 +36,9 @@ downloadFunc=(cfs_file,filePath)->
 	fileName = cfs_file._id + path.extname(cfs_file.original.name)
 	downloadFile = path.join filePath, fileName
 	stream = fs.createWriteStream downloadFile,{encoding:'utf8'}
+	console.log url
 	request.get({
-		url: url,
-		headers: {
-		'referer': Meteor.absoluteUrl()
-		}
+		url: url
 	}).pipe(stream)
 
 	stream.on 'close', Meteor.bindEnvironment ()->
