@@ -68,10 +68,11 @@ _syncInstances = (instances)->
 				'POST', ping_instance_url,
 				{data: instanceObj}
 			)
-			if result?.statusCode==200
-				Attachment.syncAttachments instance_id
-				_syncApproves tracesArr,index
-				db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
+			# console.log result
+			# if result?.statusCode==200
+			Attachment.syncAttachments instance_id
+			# _syncApproves tracesArr,index
+			db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
 		catch e
 			logger.error "#{instance_id} is not sync"
 
@@ -112,3 +113,5 @@ Records.syncTest=(instance_id)->
 		{'_id':instance_id}
 	)
 	_syncInstances instances
+
+# Records.syncTest('oJfg3AQRx5nFoDA8s')

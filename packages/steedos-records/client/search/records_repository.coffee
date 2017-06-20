@@ -33,10 +33,9 @@ Template.search_records_repository.onRendered ->
 			{ 
 				'data': '_source.name',
 				render: (val, type, doc) ->
-					url = Meteor.absoluteUrl("workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}")
-
-					# url = "http://192.168.0.21/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
-
+					# fileserver = Meteor.settings.records.cfs_file_server
+					url = "https://qhd.steedos.com" + "/workflow/space/#{doc?._source?.space}/view/readonly/#{doc?._id}"
+					
 					title = doc.highlight?.name?.join("...") || doc?._source?.name
 
 					highlight = doc.highlight?.values?.join("...") || doc.highlight?.attachments?.join("...")
