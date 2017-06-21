@@ -50,4 +50,5 @@ simple:json-routes@2.1.0
 http
 tap:i18n
 
+steedos:sso
 steedos:records
