@@ -6,6 +6,5 @@ cd C:/records-build/bundle/programs/server
 rd /s /q node_modules
 npm install --registry https://registry.npm.taobao.org -d
 
-cd ../../
-node main.js
+cd C:/records-build
 pm2 restart records.0
