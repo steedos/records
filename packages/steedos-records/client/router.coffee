@@ -2,6 +2,10 @@ checkUserSigned = (context, redirect) ->
 	if !Meteor.userId()
 		FlowRouter.go '/steedos/sign-in?redirect=' + context.path;
 
+FlowRouter.route '/',
+	action: (params, queryParams)->
+		FlowRouter.go "/records/search/records_repository"
+
 recordsSpaceRoutes = FlowRouter.group
 	triggersEnter: [ checkUserSigned ],
 	prefix: '/records',
