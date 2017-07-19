@@ -72,7 +72,7 @@ _syncInstances = (instances)->
 			# if result?.statusCode==200
 			Attachment.syncAttachments instance_id
 			# _syncApproves tracesArr,index
-			db.instances.update({'_id':instance_id},{$set: {is_recorded: true}})
+			Instances.update({'_id':instance_id},{$set: {is_recorded: true}})
 		catch e
 			logger.error "#{instance_id} is not sync"
 
@@ -83,12 +83,11 @@ Records.syncInstances=()->
 
 	console.time "Records.syncInstances"
 
-	instances=db.instances.find(
-		{'is_recorded':false},
+	instances=Instances.find(
+		{'is_recorded': {$ne:true}},
 		limit:10,
 		sort: { 'modified': 1 }
 	)
-
 	
 	_syncInstances instances
 
@@ -98,18 +97,18 @@ Records.syncInstances=()->
 Records.buildIndex=()->
 	console.time "Records.syncInstances"
 	i=0
-	total = db.instances.find({'is_recorded':false}).count()
+	total = Instances.find({'is_recorded':{$ne:true}}).count()
 	times = parseInt total/10+1
 	while(i<times)
 		i++
 		skip_num=i*10
-		instances=db.instances.find {"is_recorded":false},limit:skip_num
+		instances=Instances.find {"is_recorded":{$ne:true}},limit:skip_num
 		_syncInstances instances
 	console.timeEnd "Records.syncInstances"
 	
 # 测试
 Records.syncTest=(instance_id)->
-	instances=db.instances.find(
+	instances=Instances.find(
 		{'_id':instance_id}
 	)
 	_syncInstances instances
