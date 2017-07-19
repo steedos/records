@@ -24,7 +24,7 @@ Meteor.startup ()->
 				"bool" : {
 					"must" : {
 						"multi_match": {
-							"query": "#{q}",
+							"query": q,
 							"type": "cross_fields",
 							"fields": [
 								"name",
@@ -37,7 +37,7 @@ Meteor.startup ()->
 					"filter" : {
 						"match": {
 							"users": {
-								"query": "#{userId}",
+								"query": userId,
 								"type": "phrase"
 							}
 						}
@@ -54,9 +54,9 @@ Meteor.startup ()->
 					"attachments.*": {}
 				}
 			}
-		};
+		}
 		params = {size:size,from:from}
-		result=HTTP.call(
+		result = HTTP.call(
 			'POST',
 			query_url,
 			{
@@ -64,12 +64,12 @@ Meteor.startup ()->
 				data: data
 			}
 		)
-		if result.statusCode==200
-			srcData=result.data.hits
-			jsonData.recordsTotal=srcData.total
-			jsonData.recordsFiltered=srcData.total
-			jsonData.data=srcData.hits
+		if result.statusCode == 200
+			srcData = result.data.hits
+			jsonData.recordsTotal = srcData.total
+			jsonData.recordsFiltered = srcData.total
+			jsonData.data = srcData.hits
 		else
-			jsonData.error="Network is error,Please try again!"
+			jsonData.error = "网络异常！"
 		JsonRoutes.sendResult res,data:jsonData
 		return
