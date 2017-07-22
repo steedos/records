@@ -1,5 +1,5 @@
 checkUserSigned = (context, redirect) ->
-	if Meteor.userId()
+	if !Meteor.userId()
 		FlowRouter.go '/steedos/sign-in?redirect=' + context.path;
 
 FlowRouter.route '/',

@@ -1,5 +1,5 @@
-set DB_SERVER=127.0.0.1
-rem set DB_SERVER=192.1.1.141
+rem set DB_SERVER=127.0.0.1
+set DB_SERVER=192.1.1.141
 set MONGO_URL=mongodb://%DB_SERVER%/steedos
 set MONGO_OPLOG_URL=mongodb://%DB_SERVER%/local
 set MULTIPLE_INSTANCES_COLLECTION_NAME=workflow_instances
