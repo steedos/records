@@ -10,7 +10,7 @@
 	"records":{
 		"office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe",
 
-		"sync_interval":120000,
+		"sync_interval":300000,
 
 		"es_search_index": "steedos",
 

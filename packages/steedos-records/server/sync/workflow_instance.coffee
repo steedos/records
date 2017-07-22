@@ -68,11 +68,8 @@ _syncInstances = (instances)->
 				'POST', ping_instance_url,
 				{data: instanceObj}
 			)
-			# console.log result
-			# if result?.statusCode==200
+			Instances.update({'_id':instance_id},{$currentDate:{record_synced: true}})
 			Attachment.syncAttachments instance_id
-			# _syncApproves tracesArr,index
-			Instances.update({'_id':instance_id},{$set: {is_recorded: true}})
 		catch e
 			logger.error "#{instance_id} is not sync"
 
@@ -83,27 +80,55 @@ Records.syncInstances=()->
 
 	console.time "Records.syncInstances"
 
-	instances=Instances.find(
-		{'is_recorded': {$ne:true}},
-		limit:10,
-		sort: { 'modified': 1 }
-	)
-	
-	_syncInstances instances
+	i = 0
+	limit_num = 10
+	total = Instances.find({
+		$or:[
+			{'record_synced':{$exists:false}},
+			{'modified':{'$gte':'record_synced'}}
+		]}).count()
+
+	times = parseInt total/limit_num+1
+
+	while(i<times)
+		i++
+		instances = Instances.find({
+			$or:[
+				{'record_synced':{$exists:false}},
+				{'modified':{'$gte':'record_synced'}}
+			]},
+			{ limit : limit_num },
+			{ sort: { 'modified': 1 } }
+		)
+		_syncInstances instances
 
 	console.timeEnd "Records.syncInstances"
 
 # 第一次初始化ES
 Records.buildIndex=()->
 	console.time "Records.syncInstances"
-	i=0
-	total = Instances.find({'is_recorded':{$ne:true}}).count()
-	times = parseInt total/10+1
+	i = 0
+	limit_num = 10
+	total = Instances.find({
+		$or:[
+			{'record_synced':{$exists:false}},
+			{'modified':{'$gte':'record_synced'}}
+		]}).count()
+
+	times = parseInt total/limit_num+1
+
 	while(i<times)
 		i++
-		skip_num=i*10
-		instances=Instances.find {"is_recorded":{$ne:true}},limit:skip_num
+		instances = Instances.find({
+			$or:[
+				{'record_synced':{$exists:false}},
+				{'modified':{'$gte':'record_synced'}}
+			]},
+			{ limit : limit_num },
+			{ sort: { 'modified': 1 } }
+		)
 		_syncInstances instances
+
 	console.timeEnd "Records.syncInstances"
 	
 # 测试
