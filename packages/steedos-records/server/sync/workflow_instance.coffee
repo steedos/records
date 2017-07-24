@@ -85,7 +85,8 @@ Records.syncInstances=()->
 	total = Instances.find({
 		$or:[
 			{'record_synced':{$exists:false}},
-			{'modified':{'$gte':'record_synced'}}
+			# {'modified':{'$gte':'record_synced'}}
+			{$where:"this.modified>=this.record_synced"}
 		]}).count()
 
 	times = parseInt total/limit_num+1
@@ -95,7 +96,8 @@ Records.syncInstances=()->
 		instances = Instances.find({
 			$or:[
 				{'record_synced':{$exists:false}},
-				{'modified':{'$gte':'record_synced'}}
+				# {'modified':{'$gte':'record_synced'}}
+				{$where:"this.modified>=this.record_synced"}
 			]},
 			{ limit : limit_num },
 			{ sort: { 'modified': 1 } }
@@ -106,30 +108,7 @@ Records.syncInstances=()->
 
 # 第一次初始化ES
 Records.buildIndex=()->
-	console.time "Records.syncInstances"
-	i = 0
-	limit_num = 10
-	total = Instances.find({
-		$or:[
-			{'record_synced':{$exists:false}},
-			{'modified':{'$gte':'record_synced'}}
-		]}).count()
-
-	times = parseInt total/limit_num+1
-
-	while(i<times)
-		i++
-		instances = Instances.find({
-			$or:[
-				{'record_synced':{$exists:false}},
-				{'modified':{'$gte':'record_synced'}}
-			]},
-			{ limit : limit_num },
-			{ sort: { 'modified': 1 } }
-		)
-		_syncInstances instances
-
-	console.timeEnd "Records.syncInstances"
+	Records.syncInstances
 	
 # 测试
 Records.syncTest=(instance_id)->
