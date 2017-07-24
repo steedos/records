@@ -8,7 +8,7 @@
 		}
 	},
 	"records":{
-		"office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe",
+		"office_converter_path":"C:\\RetrievalSystem\\OfficeConverter\\OfficeConverter.exe",
 
 		"sync_interval":300000,
 
