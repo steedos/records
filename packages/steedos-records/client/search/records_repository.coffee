@@ -1,6 +1,6 @@
 userId = Meteor.userId()
 
-records_search_api = Meteor.absoluteUrl("records/search?userId="+userId)
+records_search_api = Meteor.absoluteUrl("records/search?userId=#{userId}")
 
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
