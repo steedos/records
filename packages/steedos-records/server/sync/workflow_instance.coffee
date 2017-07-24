@@ -69,6 +69,7 @@ _syncInstances = (instances)->
 				{data: instanceObj}
 			)
 			Instances.update({'_id':instance_id},{$currentDate:{record_synced: true}})
+			console.log instance_id
 			Attachment.syncAttachments instance_id
 		catch e
 			logger.error "#{instance_id} is not sync"
@@ -85,7 +86,6 @@ Records.syncInstances=()->
 	total = Instances.find({
 		$or:[
 			{'record_synced':{$exists:false}},
-			# {'modified':{'$gte':'record_synced'}}
 			{$where:"this.modified>=this.record_synced"}
 		]}).count()
 
@@ -96,7 +96,6 @@ Records.syncInstances=()->
 		instances = Instances.find({
 			$or:[
 				{'record_synced':{$exists:false}},
-				# {'modified':{'$gte':'record_synced'}}
 				{$where:"this.modified>=this.record_synced"}
 			]},
 			{ limit : limit_num },
@@ -108,7 +107,7 @@ Records.syncInstances=()->
 
 # 第一次初始化ES
 Records.buildIndex=()->
-	Records.syncInstances
+	syncInstances
 	
 # 测试
 Records.syncTest=(instance_id)->
