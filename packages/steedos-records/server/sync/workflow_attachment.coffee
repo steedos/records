@@ -50,7 +50,7 @@ converterFunc = (cfs_file, downloadFile)->
 		when '.DOC','.DOCX','.XLS','.XLSX'
 			converterOffice cfs_file, downloadFile
 		when '.TXT'
-			readFile cfs_file,downloadFile
+			readFunc cfs_file,downloadFile
 
 converterOffice=(cfs_file, downloadFile)->
 	converterFile = downloadFile.substring(0,downloadFile.lastIndexOf('.'))+'.txt'
