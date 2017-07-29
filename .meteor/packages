@@ -51,6 +51,7 @@ steedos:accounts@0.0.5
 simple:json-routes@2.1.0
 http
 tap:i18n
-
+steedos:records-i18n@0.0.1
 steedos:sso
 steedos:records
+
