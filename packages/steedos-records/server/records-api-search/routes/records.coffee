@@ -44,7 +44,7 @@ Meteor.startup ()->
 					}
 				}
 			},
-			"sort": { "modified": { "order": "desc" ,"unmapped_type" : "date"}},
+#			"sort": { "modified": { "order": "desc" ,"unmapped_type" : "date"}},
 			"highlight": {
 				"pre_tags":["<strong>"],
 				"post_tags":["</strong>"]
