@@ -23,19 +23,6 @@ Template.search_records_repository.onRendered ->
 		'sort': false, #排序功能
 		'info': true,  #页脚信息
 		'processing': true,
-		'language': {
-			'thousands': ',', #千级别的数据显示格式
-			"info":"显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
-			"infoEmpty":"显示第 0 至 0 项记录，共 0 项",
-			"search":"",
-			"zeroRecords":"对不起，查询不到相关数据！",
-			"paginate": {
-				"first":"首页",
-				"last":"末页",
-				"next":"下一页",
-				"previous":"上一页"
-			}
-		},
 		'pageLength':10,
 		'autoWidth': false,#不自动计算列宽度
 		'serverSide': true,
