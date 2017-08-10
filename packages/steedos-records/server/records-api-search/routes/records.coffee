@@ -1,5 +1,5 @@
 Meteor.startup ()->
-	JsonRoutes.add "get", "/records/search", (req, res, next) ->
+	JsonRoutes.add "get", "/search", (req, res, next) ->
 		#传入的参数  ----  draw：直接返回|columns:列|start:开始|length：页长度|...|自定义参数...
 		#从ES中查询数据
 		jsonData={
