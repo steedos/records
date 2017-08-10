@@ -53,8 +53,8 @@ Package.onUse(function(api) {
     api.use('momentjs:moment', 'client');
     api.use('mrt:moment-timezone', 'client');
 
-	api.use('steedos:adminlte');
-    api.use('steedos:base');
+	api.use('steedos:adminlte@2.3.12_3');
+    api.use('steedos:base@0.0.45');
     api.use('steedos:logger@0.0.2');
     api.use('steedos:theme@0.0.13');
     api.use('simple:json-routes@2.1.0');

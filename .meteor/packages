@@ -44,7 +44,7 @@ meteorhacks:subs-manager
 dburles:collection-helpers
 steedos:ionicons@0.1.7
 steedos:adminlte@2.3.12_3
-steedos:base@0.0.25
+steedos:base@0.0.45
 steedos:theme@0.0.13
 steedos:logger@0.0.2
 steedos:accounts@0.0.5
