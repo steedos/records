@@ -23,6 +23,7 @@ Template.search_records_repository.onRendered ->
 		'sort': false, #排序功能
 		'info': true,  #页脚信息
 		'processing': true,
+		'language': t('dataTables'),
 		'pageLength':10,
 		'autoWidth': false,#不自动计算列宽度
 		'serverSide': true,

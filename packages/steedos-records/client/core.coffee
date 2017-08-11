@@ -12,5 +12,9 @@ Tracker.autorun ()->
 		TAPi18n.setLanguage("en")
 
 Meteor.startup ->
+	if Meteor.isClient
+		db.apps.INTERNAL_APPS = []
+
+Meteor.startup ->
 	$ ()->
 		$("body").removeClass("loading")
