@@ -2,6 +2,8 @@ userId = Meteor.userId()
 
 records_search_api = Steedos.absoluteUrl("search?userId=#{userId}")
 
+console.log records_search_api
+
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
 		seatch_txt=$('.txt-search.form-control').val()
