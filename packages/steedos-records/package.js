@@ -54,10 +54,10 @@ Package.onUse(function(api) {
     api.use('mrt:moment-timezone', 'client');
 
 	api.use('steedos:adminlte@2.3.12_3');
-    api.use('steedos:base@0.0.45');
-    api.use('steedos:logger@0.0.2');
-    api.use('steedos:theme@0.0.13');
-    api.use('simple:json-routes@2.1.0');
+
+    api.use('steedos:base@0.0.47');
+    api.use('steedos:accounts@0.0.18');
+    api.use('steedos:theme@0.0.21');
     api.use('steedos:records-i18n@0.0.1');
     api.use('http');
 
