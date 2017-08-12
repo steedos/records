@@ -58,7 +58,11 @@ Package.onUse(function(api) {
     api.use('steedos:base@0.0.47');
     api.use('steedos:accounts@0.0.18');
     api.use('steedos:theme@0.0.21');
+    api.use('steedos:i18n@0.0.5');
     api.use('steedos:records-i18n@0.0.1');
+    
+    api.use('simple:json-routes@2.1.0');
+    api.use('steedos:logger@0.0.2');
     api.use('http');
 
 
