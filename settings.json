@@ -14,6 +14,6 @@
 
 		"es_search_index": "steedos",
 
-		"cfs_file_server": "https://qhd.steedos.com"
+		"cfs_file_server": "http://192.1.1.151:3000"
   }
 }
