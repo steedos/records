@@ -10,10 +10,10 @@
 	"records":{
 		"office_converter_path":"D:\\OfficeConverter\\OfficeConverter.exe",
 
-		"sync_interval":300000,
+		"sync_interval":0,
 
 		"es_search_index": "steedos",
 
-		"cfs_file_server": "http://192.1.1.151:3000"
+		"cfs_file_server": "http://192.1.1.141:315"
   }
 }
