@@ -1,8 +1,4 @@
-userId = Meteor.userId()
-
-records_search_api = Steedos.absoluteUrl("search?userId=#{userId}")
-
-console.log records_search_api
+records_search_api = Steedos.absoluteUrl("search?")
 
 Template.search_records_repository.events
 	'click .btn.btn-search':(event)->
@@ -13,7 +9,9 @@ Template.search_records_repository.events
 
 		$('.table-responsive').css 'display', 'initial'
 
-		ajaxUrl = records_search_api+'&q='+seatch_txt
+		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + '&q=' + seatch_txt
+
+		console.log ajaxUrl
 
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
@@ -79,7 +77,7 @@ Template.search_records_repository.onRendered ->
 		# 高版本datatables插件的服务器端分页方法
 		'ajax': {
 			type: 'get',
-			url: records_search_api,
+			url: records_search_api + "userId=" + Meteor.userId(),
 			dataType: 'json'
 		},
 		# 创建行时候改变行的样式，调样式在这里写
