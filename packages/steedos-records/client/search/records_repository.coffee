@@ -23,7 +23,7 @@ Template.search_records_repository.onRendered ->
 		'sort': false, #排序功能
 		'info': true,  #页脚信息
 		'processing': true,
-		'language': 'language': {
+		'language': {
 			'thousands': ',', #千级别的数据显示格式
 			"info":"显示第 _START_ 至 _END_ 项记录，共 _TOTAL_ 项",
 			"infoEmpty":"显示第 0 至 0 项记录，共 0 项",
