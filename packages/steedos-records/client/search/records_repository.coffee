@@ -1,6 +1,11 @@
 records_search_api = Steedos.absoluteUrl("search?")
 
 Template.search_records_repository.events
+	'keyup [name=input_search]':(event)->
+		if event.which==13
+			$('.btn.btn-search').click()
+		return
+
 	'click .btn.btn-search':(event)->
 		seatch_txt=$('.txt-search.form-control').val()
 
@@ -10,8 +15,6 @@ Template.search_records_repository.events
 		$('.table-responsive').css 'display', 'initial'
 
 		ajaxUrl = records_search_api + "userId=" + Meteor.userId() + '&q=' + seatch_txt
-
-		console.log ajaxUrl
 
 		$('.table-records-result').DataTable().ajax.url(ajaxUrl).load();
 
