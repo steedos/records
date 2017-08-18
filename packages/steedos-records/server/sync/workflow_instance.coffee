@@ -51,7 +51,7 @@ _pushUser = (instance)->
 			users.push outbox_user
 	return users
 
-_syncInstances = (instances)->
+_addInstances = (instances)->
 	instances.forEach (instance)->
 		instance_id=instance._id
 		ping_instance_url=es_server+'/'+index+'/'+type+'/'+instance_id
@@ -76,19 +76,15 @@ _syncInstances = (instances)->
 			logger.error "#{instance_id} can not sync"
 
 
-addInstances = ()->
+addSyne = ()->
 	i = 0
-
 	limit_num = Meteor.settings.records.sync_limit_num
-
 	total = Instances.find({
 		$or:[
 			{'record_synced':{$exists:false}},
 			{$where:"this.modified>=this.record_synced"}
 		]}).count()
-
 	times = parseInt total/limit_num+1
-
 	while(i < times)
 		i++
 		instances = Instances.find({
@@ -99,7 +95,7 @@ addInstances = ()->
 			{ limit : limit_num },
 			{ sort: { 'modified': 1 } }
 		)
-		_syncInstances instances
+		_addInstances instances
 
 _deleteInstances = (instances)->
 	instances.forEach (instance)->
@@ -107,7 +103,6 @@ _deleteInstances = (instances)->
 		type="instances"
 		instance_id=instance._id
 		ping_instance_url=es_server+'/'+index+'/'+type+'/'+instance_id
-		console.log ping_instance_url
 		try
 			result = HTTP.call(
 				'DELETE', ping_instance_url
@@ -117,17 +112,14 @@ _deleteInstances = (instances)->
 		catch e
 			logger.error "#{instance_id} can not deleted"
 
-deleteInstances = ()->
+deleteSyne = ()->
 	i = 0
-
 	limit_num = Meteor.settings.records.sync_limit_num
-
 	total = deletedInstances.find({
 		$or:[
 			{'record_synced':{$exists:true}},
 			{$where:"this.deleted>=this.record_synced"}
 		]}).count()
-
 	while(i < times)
 		i++
 		instances = Instances.find({
@@ -136,7 +128,7 @@ deleteInstances = ()->
 				{$where:"this.deleted>=this.record_synced"}
 			]},
 			{ limit : limit_num },
-			{ sort: { 'modified': 1 } }
+			{ sort: { 'deleted': 1 } }
 		)
 		_deleteInstances instances
 
@@ -147,25 +139,21 @@ Records.syncInstances=()->
 	console.time "Records.syncInstances"
 
 	# 需要同步的表单
-	addInstances
+	addSyne
 
 	# 删除同步的表单
-	deleteInstances
+	deleteSyne
 
 	console.timeEnd "Records.syncInstances"
-
-# 第一次初始化ES
-Records.buildIndex=()->
-	syncInstances
 	
-# 测试
-Records.syncTest=(instance_id)->
+# 测试增加
+Records.addTest=(instance_id)->
 	instances=Instances.find(
 		{'_id':instance_id}
 	)
-	_syncInstances instances
+	_addInstances instances
 
-# Records.syncTest('57fdcce530d3b200a5000037')
+# Records.addTest('unJ5XBeh7JvRxLwSM')
 
 # 测试删除
 Records.deleteTest=(instance_id)->
@@ -174,4 +162,9 @@ Records.deleteTest=(instance_id)->
 	)
 	_deleteInstances instances
 
-# Records.deleteTest('PAgNQXbJ4QFM5J6TE')	
+# Records.deleteTest('7qtBWDMSewpqo5gZP')	
+
+
+# 第一次初始化ES
+Records.buildIndex=()->
+	syncInstances
