@@ -87,7 +87,9 @@ Package.onUse(function(api) {
     api.addFiles('models/instances.coffee');
     api.addFiles('models/attachments.coffee');
 
-    api.addFiles('server/records-api-search/routes/records.coffee','server');
+    api.addFiles('server/api/search/search_api.coffee','server');
+    api.addFiles('server/api/delete/delete_api.coffee','server');
+
 
     api.addFiles('server/sync/workflow_instance.coffee','server');
     api.addFiles('server/sync/workflow_attachment.coffee','server');
