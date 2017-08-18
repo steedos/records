@@ -7,6 +7,9 @@ Meteor.startup ()->
 	if Meteor.settings.records?.sync_interval>0
 		Meteor.setInterval(Records.syncInstances,Meteor.settings.records.sync_interval)
 
+index=Meteor.settings.records.es_search_index
+type="instances"
+
 _syncApproves = (tracesArr,index)->
 	type="approves"
 	tracesArr?.forEach (trace)->
@@ -50,8 +53,6 @@ _pushUser = (instance)->
 
 _syncInstances = (instances)->
 	instances.forEach (instance)->
-		index=Meteor.settings.records.es_search_index
-		type="instances"
 		instance_id=instance._id
 		ping_instance_url=es_server+'/'+index+'/'+type+'/'+instance_id
 		tracesArr = instance?.traces
@@ -72,17 +73,14 @@ _syncInstances = (instances)->
 			console.log instance_id
 			Attachment.syncAttachments instance_id
 		catch e
-			logger.error "#{instance_id} is not sync"
+			logger.error "#{instance_id} can not sync"
 
-# 同步任务主函数
-Records.syncInstances=()->
 
-	logger.info "Run Records.syncInstances"
-
-	console.time "Records.syncInstances"
-
+addInstances = ()->
 	i = 0
-	limit_num = 10
+
+	limit_num = Meteor.settings.records.sync_limit_num
+
 	total = Instances.find({
 		$or:[
 			{'record_synced':{$exists:false}},
@@ -91,7 +89,7 @@ Records.syncInstances=()->
 
 	times = parseInt total/limit_num+1
 
-	while(i<times)
+	while(i < times)
 		i++
 		instances = Instances.find({
 			$or:[
@@ -102,6 +100,57 @@ Records.syncInstances=()->
 			{ sort: { 'modified': 1 } }
 		)
 		_syncInstances instances
+
+_deleteInstances = (instances)->
+	instances.forEach (instance)->
+		index=Meteor.settings.records.es_search_index
+		type="instances"
+		instance_id=instance._id
+		ping_instance_url=es_server+'/'+index+'/'+type+'/'+instance_id
+		console.log ping_instance_url
+		try
+			result = HTTP.call(
+				'DELETE', ping_instance_url
+			)
+			deletedInstances.update({'_id':instance_id},{$currentDate:{record_synced: true}})
+			console.log instance_id
+		catch e
+			logger.error "#{instance_id} can not deleted"
+
+deleteInstances = ()->
+	i = 0
+
+	limit_num = Meteor.settings.records.sync_limit_num
+
+	total = deletedInstances.find({
+		$or:[
+			{'record_synced':{$exists:true}},
+			{$where:"this.deleted>=this.record_synced"}
+		]}).count()
+
+	while(i < times)
+		i++
+		instances = Instances.find({
+			$or:[
+				{'record_synced':{$exists:true}},
+				{$where:"this.deleted>=this.record_synced"}
+			]},
+			{ limit : limit_num },
+			{ sort: { 'modified': 1 } }
+		)
+		_deleteInstances instances
+
+# 同步任务主函数
+Records.syncInstances=()->
+	logger.info "Run Records.syncInstances"
+
+	console.time "Records.syncInstances"
+
+	# 需要同步的表单
+	addInstances
+
+	# 删除同步的表单
+	deleteInstances
 
 	console.timeEnd "Records.syncInstances"
 
@@ -116,4 +165,13 @@ Records.syncTest=(instance_id)->
 	)
 	_syncInstances instances
 
-# Records.syncTest('oJfg3AQRx5nFoDA8s')
+# Records.syncTest('57fdcce530d3b200a5000037')
+
+# 测试删除
+Records.deleteTest=(instance_id)->
+	instances=deletedInstances.find(
+		{'_id':instance_id}
+	)
+	_deleteInstances instances
+
+# Records.deleteTest('PAgNQXbJ4QFM5J6TE')	
