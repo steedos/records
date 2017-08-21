@@ -28,24 +28,24 @@ Package.onUse(function(api) {
     api.use('session');
     api.use('blaze');
     api.use('templating');
-    api.use('flemay:less-autoprefixer@1.2.0');
-    api.use('simple:json-routes@2.1.0');
-    api.use('nimble:restivus@0.8.7');
-    api.use('aldeed:simple-schema@1.3.3');
-    api.use('aldeed:collection2@2.5.0');
-    api.use('aldeed:tabular@1.6.1');
-    api.use('aldeed:autoform@5.8.0');
-    api.use('matb33:collection-hooks@0.8.1');
-    api.use('cfs:standard-packages@0.5.9');
-    api.use('kadira:blaze-layout@2.3.0');
-    api.use('kadira:flow-router@2.10.1');
+    api.use('flemay:less-autoprefixer');
+    api.use('simple:json-routes');
+    api.use('nimble:restivus');
+    api.use('aldeed:simple-schema');
+    api.use('aldeed:collection2');
+    api.use('aldeed:tabular');
+    api.use('aldeed:autoform');
+    api.use('matb33:collection-hooks');
+    api.use('cfs:standard-packages');
+    api.use('kadira:blaze-layout');
+    api.use('kadira:flow-router');
     api.use('iyyang:cfs-aliyun')
     api.use('cfs:s3');
     
     api.use('aldeed:autoform-bs-datetimepicker');
 
-    api.use('meteorhacks:ssr@2.2.0');
-    api.use('tap:i18n@1.7.0');
+    api.use('meteorhacks:ssr');
+    api.use('tap:i18n');
     api.use('meteorhacks:subs-manager');
 
     api.use(['webapp'], 'server');
@@ -55,10 +55,10 @@ Package.onUse(function(api) {
 
 	api.use('steedos:adminlte@2.3.12_3');
 
-    api.use('steedos:base@0.0.47');
-    api.use('steedos:accounts@0.0.18');
-    api.use('steedos:theme@0.0.21');
-    api.use('steedos:i18n@0.0.5');
+    api.use('steedos:base@0.0.53');
+    api.use('steedos:accounts@0.0.21');
+    api.use('steedos:theme@0.0.23');
+    api.use('steedos:i18n@0.0.7');
     api.use('steedos:records-i18n@0.0.1');
     
     api.use('simple:json-routes@2.1.0');
