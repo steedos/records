@@ -55,10 +55,10 @@ Package.onUse(function(api) {
 
 	api.use('steedos:adminlte@2.3.12_3');
 
-    api.use('steedos:base@0.0.53');
-    api.use('steedos:accounts@0.0.21');
-    api.use('steedos:theme@0.0.23');
-    api.use('steedos:i18n@0.0.7');
+    api.use('steedos:base');
+    api.use('steedos:accounts');
+    api.use('steedos:theme');
+    api.use('steedos:i18n');
     api.use('steedos:records-i18n@0.0.1');
     
     api.use('simple:json-routes@2.1.0');
