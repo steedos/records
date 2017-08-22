@@ -60,9 +60,11 @@ Template.search_records_repository.onRendered ->
 
 					date = ''
 
-					if doc?._source?.modified
-						modified = new Date(doc._source.modified)
-						date = modified.getFullYear() + "-" + (modified.getMonth() + 1) + "-" + modified.getDay()
+					if doc?._source?.created
+
+						created = new Date(doc._source.created)
+
+						date = created.getFullYear() + "-" + (created.getMonth() + 1) + "-" + created.getDate()
 
 					return """
 						<li class="b_algo" data-bm="6">
