@@ -58,6 +58,7 @@ Package.onUse(function(api) {
     api.use('steedos:base');
     api.use('steedos:accounts');
     api.use('steedos:theme');
+    api.use('steedos:theme-qhd');
     api.use('steedos:i18n');
     api.use('steedos:records-i18n@0.0.1');
     

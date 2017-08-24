@@ -47,6 +47,7 @@ steedos:adminlte@2.3.12_3
 
 steedos:base
 steedos:theme
+steedos:theme-qhd
 steedos:accounts
 steedos:i18n
 steedos:records-i18n
