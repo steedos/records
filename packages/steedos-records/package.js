@@ -67,29 +67,29 @@ Package.onUse(function(api) {
     api.use('http');
 
 
-    api.addFiles('client/admin/record_types.html', 'client');
-    api.addFiles('client/admin/record_types.coffee', 'client');
-    api.addFiles('client/admin/record_types.less', 'client');
+    // api.addFiles('client/admin/record_types.html', 'client');
+    // api.addFiles('client/admin/record_types.coffee', 'client');
+    // api.addFiles('client/admin/record_types.less', 'client');
 
-    api.addFiles('client/home/home.html', 'client');
+    // api.addFiles('client/home/home.html', 'client');
 
-    api.addFiles('client/layout/layout.html', 'client');
-    api.addFiles('client/layout/layout.less', 'client');
-    api.addFiles('client/layout/sidebar.html', 'client');
+    // api.addFiles('client/layout/layout.html', 'client');
+    // api.addFiles('client/layout/layout.less', 'client');
+    // api.addFiles('client/layout/sidebar.html', 'client');
 
-    api.addFiles('client/search/records_repository.html', 'client');
-    api.addFiles('client/search/records_repository.coffee', 'client');
-    api.addFiles('client/search/records_repository.less', 'client');
+    // api.addFiles('client/search/records_repository.html', 'client');
+    // api.addFiles('client/search/records_repository.coffee', 'client');
+    // api.addFiles('client/search/records_repository.less', 'client');
 
-    api.addFiles('client/core.coffee', 'client');
-    api.addFiles('client/router.coffee', 'client');
+    // api.addFiles('client/core.coffee', 'client');
+    // api.addFiles('client/router.coffee', 'client');
 
     api.addFiles('models/record_types.coffee');
     api.addFiles('models/instances.coffee');
     api.addFiles('models/attachments.coffee');
 
-    api.addFiles('server/api/search/search_api.coffee','server');
-    api.addFiles('server/api/delete/delete_api.coffee','server');
+    // api.addFiles('server/api/search/search_api.coffee','server');
+    // api.addFiles('server/api/delete/delete_api.coffee','server');
 
 
     api.addFiles('server/sync/workflow_instance.coffee','server');

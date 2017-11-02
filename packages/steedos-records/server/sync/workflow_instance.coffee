@@ -70,7 +70,7 @@ _addInstances = (instances)->
 				{data: instanceObj}
 			)
 			Instances.update({'_id':instance_id},{$currentDate:{record_synced: true}})
-			Attachment.syncAttachments instance_id
+			# Attachment.syncAttachments instance_id
 		catch e
 			logger.error "#{instance_id} can not sync"
 
@@ -174,4 +174,4 @@ Records.deleteTest=(instance_id)->
 
 # 第一次初始化ES
 Records.buildIndex=()->
-	syncInstances
+	Records.syncInstances()
