@@ -55,13 +55,14 @@ _addInstances = (instances)->
 	instances.forEach (instance)->
 		instance_id=instance._id
 		ping_instance_url=es_server+'/'+index+'/'+type+'/'+instance_id
-		tracesArr = instance?.traces
+		console.log ping_instance_url
+		# tracesArr = instance?.traces
 		delete instance.traces
 		delete instance._id
 		delete instance.attachments
 		if instance.values
 			instance.values = JSON.stringify instance.values
-		instance.users = _pushUser instance
+		# instance.users = _pushUser instance
 		instanceObj=instance
 		instanceObj.attachments = []
 		try
@@ -155,12 +156,13 @@ Records.syncInstances=()->
 	
 # 测试增加
 Records.addTest=(instance_id)->
+	console.log instance_id
 	instances=Instances.find(
 		{'_id':instance_id}
 	)
 	_addInstances instances
 
-# Records.addTest('unJ5XBeh7JvRxLwSM')
+# Records.addTest('M9WEJ7EMChAPMES54')
 
 # 测试删除
 Records.deleteTest=(instance_id)->
@@ -169,7 +171,7 @@ Records.deleteTest=(instance_id)->
 	)
 	_deleteInstances instances
 
-# Records.deleteTest('7qtBWDMSewpqo5gZP')	
+# Records.deleteTest('M9WEJ7EMChAPMES54')	
 
 
 # 第一次初始化ES
