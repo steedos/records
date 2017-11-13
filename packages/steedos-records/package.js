@@ -95,8 +95,9 @@ Package.onUse(function(api) {
     api.addFiles('server/sync/workflow_instance.coffee','server');
     api.addFiles('server/sync/workflow_attachment.coffee','server');
     
+    api.addFiles('server/test/testConverter.coffee','server');
+
+
     api.addFiles('server/main.coffee','server');
-
-
 });
 
