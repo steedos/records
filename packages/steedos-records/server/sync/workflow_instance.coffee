@@ -62,7 +62,7 @@ _deleteInstance = (delete_ins_id)->
 		deletedInstances.direct.update(
 			delete_ins_id,
 			{
-				$set:{is_recorded: undefined}
+				$unset:{is_recorded: undefined}
 			})
 	catch e
 		logger.error "#{delete_ins_id} can not deleted"
