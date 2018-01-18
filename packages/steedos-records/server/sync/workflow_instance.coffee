@@ -30,7 +30,7 @@ _addInstance = (instance)->
 			{
 				$set:{is_recorded: true}
 			})
-		# Attachment.syncAttachments instance_id
+		Attachment.syncAttachments instance_id
 	catch e
 		logger.error "#{instance_id} can not sync"
 
