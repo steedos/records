@@ -56,14 +56,15 @@ insertSyne = ()->
 _deleteInstance = (delete_ins_id)->
 	ping_instance_url = es_server+'/'+index+'/'+type+'/'+delete_ins_id
 	try
-		result = HTTP.call(
-			'DELETE', ping_instance_url
-		)
 		deletedInstances.direct.update(
 			delete_ins_id,
 			{
 				$unset:{is_recorded: undefined}
 			})
+
+		result = HTTP.call(
+			'DELETE', ping_instance_url
+		)
 	catch e
 		logger.error "#{delete_ins_id} can not deleted"
 
