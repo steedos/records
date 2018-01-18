@@ -44,7 +44,7 @@ insertSyne = ()->
 					{is_recorded:false}
 				]
 		},
-		{ limit : limit_num }
+		{ limit : limit_num },
 		{ fields : {_id: 1}}
 		).fetch()
 
