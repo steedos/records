@@ -64,7 +64,7 @@ converterOffice=(cfs_file, downloadFile)->
 			fs.unlinkSync downloadFile
 		readFunc cfs_file,converterFile
 	catch e
-		logger.error e
+		logger.error '文件转化失败'
 
 readFunc=(cfs_file,converterFile)->
 	readStream = fs.readFileSync converterFile,{encoding:'utf8'}

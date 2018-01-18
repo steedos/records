@@ -4,10 +4,10 @@ logger = new Logger 'Records_ES_Instances'
 @es_server=Meteor.settings.public.webservices?.elasticsearch?.url
 # 定时器
 Meteor.startup ()->
-	if Meteor.settings.records?.sync_interval>0
-		Meteor.setInterval(Records.syncInstances,Meteor.settings.records.sync_interval)
+	if Meteor?.settings?.records?.sync_interval>0
+		Meteor.setInterval(Records?.syncInstances,Meteor?.settings?.records?.sync_interval)
 
-index=Meteor.settings.records.es_search_index
+index=Meteor?.settings?.records?.es_search_index
 type="instances"
 
 _syncApproves = (tracesArr,index)->
@@ -71,7 +71,7 @@ _addInstances = (instances)->
 				{data: instanceObj}
 			)
 			Instances.update({'_id':instance_id},{$currentDate:{record_synced: true}})
-			Attachment.syncAttachments instance_id
+			# Attachment.syncAttachments instance_id
 		catch e
 			logger.error "#{instance_id} can not sync"
 
