@@ -3,16 +3,16 @@
                 "name": "records.0",
                 "max_memory_restart": "1024M",
                 "log_date_format": "YYYY-MM-DD HH:mm:ss SSS",
-                "script": "C:/records-build/bundle/main.js",
-                "out_file": "C:/records-build/log/app.log",
-                "error_file": "C:/records-build/log/err.log",
+                "script": "C:/Code/Build/records-build/bundle/main.js",
+                "out_file": "C:/Code/Build/records-build/log/app.log",
+                "error_file": "C:/Code/Build/records-build/log/err.log",
                 "port": "3000",
                 "env": {
                         "MONGO_URL": "mongodb://192.1.1.215:27017,192.1.1.216:27017,192.1.1.217:27017/steedos",
                         "MONGO_OPLOG_URL": "mongodb://192.1.1.215:27017,192.1.1.216:27017,192.1.1.217:27017/local",
                         "MULTIPLE_INSTANCES_COLLECTION_NAME": "workflow_instances",
-                        "ROOT_URL": "http://127.0.0.1:3000/records",
-                        "DDP_DEFAULT_CONNECTION_URL": "http://127.0.0.1:3000/records",
+                        "ROOT_URL": "https://qhd.steedos.com/records",
+                        "DDP_DEFAULT_CONNECTION_URL": "https://qhd.steedos.com/records",
                         "PORT": "3000"
                 }
         }]
