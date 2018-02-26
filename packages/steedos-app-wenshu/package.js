@@ -2,13 +2,12 @@ Package.describe({
 	name: 'steedos:app-wenshu',
 	version: '0.0.1',
 	summary: 'Creator wenshu',
-	git: '',
-	documentation: null
+	git: ''
 });
 
 Package.onUse(function(api) {
 
-	api.use('steedos:creator@0.0.3');
+	api.use('steedos:creator');
 	api.use('coffeescript@1.11.1_4');
 	api.addFiles('models/archive_borrow.coffee');
 	api.addFiles('models/archive_classification.coffee');
