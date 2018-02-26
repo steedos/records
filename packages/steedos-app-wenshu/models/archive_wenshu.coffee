@@ -1,7 +1,7 @@
-Creator.Objects.archive_records =
-	name: "archive_records"
+Creator.Objects.archive_wenshu =
+	name: "archive_wenshu"
 	icon: "record"
-	label: "档案"
+	label: "文书档案"
 	enable_search: true
 	enable_files: true
 	enable_api: true
