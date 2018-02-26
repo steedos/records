@@ -4,7 +4,7 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-check@1.2.5
+check@1.2.3
 coffeescript@1.2.4_1
 meteor-base@1.0.4             # Packages every Meteor app needs to have
 mobile-experience@1.0.4       # Packages for a great mobile UX
@@ -14,48 +14,91 @@ reactive-var@1.0.11            # Reactive variable for tracker
 tracker@1.1.2                 # Meteor's client-side reactive programming library
 
 standard-minifier-css@1.3.4   # CSS minifier run for production mode
-standard-minifier-js@1.2.3    # JS minifier run for production mode
+standard-minifier-js@2.1.0    # JS minifier run for production mode
 es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers.
 ecmascript@0.6.3              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.3            # Server-side component of the `meteor shell` command
 
-less@2.7.9
-reload@1.1.11
-session@1.1.7
+less
+reload
+session
 
-# accounts-ui@1.1.9
-
-accounts-password@1.3.4
+accounts-ui
+accounts-password
 
 fortawesome:fontawesome
+tap:i18n
 
+raix:push
+steedos:cors
+aldeed:tabular
 aldeed:collection2
 aldeed:simple-schema
-aldeed:tabular
 aldeed:autoform
-aldeed:autoform-bs-datetimepicker
-tsega:bootstrap3-datetimepicker@=3.1.3_3
-yogiben:autoform-modals
+steedos:autoform-bs-datetimepicker
+tsega:bootstrap3-datetimepicker@4.17.37
+steedos:autoform-modals
+steedos:autoform-bs-minicolors
+steedos:autoform-file
+
+gwendall:simple-schema-i18n
+
+francocatena:status
+
+steedos:toastr@2.1.3
 
 kadira:flow-router
 kadira:blaze-layout
-peppelg:bootstrap-3-modal@1.0.4
 meteorhacks:subs-manager
 dburles:collection-helpers
-steedos:ionicons@0.1.7
-steedos:adminlte@2.3.12_3
 
-steedos:base
-steedos:theme
-steedos:theme-qhd
-steedos:accounts
+momentjs:moment
+
+steedos:loaders-css
+
+steedos:smsqueue@0.0.1
+
+steedos:useraccounts-core
+steedos:useraccounts-bootstrap
+steedos:useraccounts-flow-routing
+steedos:accounts-t9n
+
+steedos:ui
+
+steedos:adminlte@2.3.12_2
 steedos:i18n
-steedos:records-i18n
+steedos:base
+steedos:accounts
+steedos:theme
+steedos:jstree
+rubaxa:sortable
+steedos:datatables-extensions
+
+matb33:collection-hooks
+
+steedos:cfs-aliyun
+steedos:cfs-filesystem
+steedos:cfs-s3
+steedos:cfs-standard-packages
+steedos:cfs-ui
+
+smoral:sweetalert@1.1.1
+
+peppelg:bootstrap-3-modal@1.0.4
+
+keepnox:perfect-scrollbar
+
+steedos:ionicons@0.1.7
+
+natestrauser:select2
+meteorhacks:unblock@1.1.0
+
+steedos:cms
+
+yogiben:autoform-tags
 
 steedos:logger@0.0.2
-simple:json-routes@2.1.0
-http
-tap:i18n
-steedos:sso
-steedos:records
 
+steedos:objects
+steedos:creator
+steedos:app-archive
