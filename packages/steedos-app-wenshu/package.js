@@ -1,7 +1,7 @@
 Package.describe({
-	name: 'steedos:app-archive',
+	name: 'steedos:app-wenshu',
 	version: '0.0.1',
-	summary: 'Creator archive',
+	summary: 'Creator wenshu',
 	git: '',
 	documentation: null
 });
