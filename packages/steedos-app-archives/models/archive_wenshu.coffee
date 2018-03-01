@@ -819,7 +819,7 @@ Creator.Objects.archive_wenshu =
 			visible:true
 			on: "record"
 			todo:(object_name, record_id, fields)->
-				borrower = Creator.Collections["archive_records"].findOne({_id:record_id}).borrowed_by
+				borrower = Creator.Collections["archive_wenshu"].findOne({_id:record_id}).borrowed_by
 				if borrower == Meteor.userId()
 					swal("您已借阅了此档案，归还之前无需重复借阅")
 					return

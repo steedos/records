@@ -40,7 +40,7 @@ Creator.Objects.archive_audit =
 		action_administrative_records_id:
 			label: "行为对象"
 			type: "master_detail"
-			reference_to: "archive_records"
+			reference_to: "archive_wenshu"
 	list_views:
 		default:
 			columns: ["business_status", "business_activity","action_time","action_administrative_records_id","action_mandate",
