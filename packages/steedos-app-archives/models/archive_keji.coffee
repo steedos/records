@@ -9,20 +9,16 @@ Creator.Objects.archive_keji =
 		archival_code:
 			type:"text"
 			label:"档号"
-			# group:"档号"
 		document_sequence_number:
 			type: "number"
 			label:"文档序号"
-			# group:"档号"
 		document_number:
 			type:"text"
 			label:"文件编号"
-			# group:"内容描述"
 			sortable:true
 		author:
 			type:"text"
 			label:"责任者"
-			# group:"内容描述"
 		title:
 			type:"textarea"
 			label:"题名"
@@ -31,7 +27,6 @@ Creator.Objects.archive_keji =
 			required:true
 			sortable:true
 			searchable:true
-			# group:"内容描述"
 		document_date:
 			type:"date"
 			label:"文件日期"
@@ -43,11 +38,9 @@ Creator.Objects.archive_keji =
 			type: "number"
 			label:"页次"
 			required:true
-			# group:"档号"
 		total_number_of_pages:
 			type:"number"
 			label:"页数"
-			# group:"形式特征"
 		annotation:
 			type:"textarea",
 			label:"备注",
