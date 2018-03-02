@@ -91,11 +91,11 @@ Creator.Objects.archive_borrow =
 						"archive_dianzi",
 						"archive_tongji",
 						"archive_shenji",
-						"archive_hetong",
-						"archive_dichan",
-						"archive_yinjian",
-						"archive_renshi",
-						"archive_wuzi"
+						# "archive_hetong",
+						# "archive_dichan",
+						# "archive_yinjian",
+						# "archive_renshi",
+						# "archive_wuzi"
 					]
 		year:
 			type:"text"

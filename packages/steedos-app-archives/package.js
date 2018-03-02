@@ -19,11 +19,11 @@ Package.onUse(function(api) {
 	api.addFiles('models/archive_dianzi.coffee');
 	api.addFiles('models/archive_tongji.coffee');
 	api.addFiles('models/archive_shenji.coffee');
-	api.addFiles('models/archive_hetong.coffee');
-	api.addFiles('models/archive_dichan.coffee');
-	api.addFiles('models/archive_yinjian.coffee');
-	api.addFiles('models/archive_renshi.coffee');
-	api.addFiles('models/archive_wuzi.coffee');
+	// api.addFiles('models/archive_hetong.coffee');
+	// api.addFiles('models/archive_dichan.coffee');
+	// api.addFiles('models/archive_yinjian.coffee');
+	// api.addFiles('models/archive_renshi.coffee');
+	// api.addFiles('models/archive_wuzi.coffee');
 
 	api.addFiles('server/methods/archive_borrow.coffee', 'server');
 	api.addFiles('server/methods/archive_destroy.coffee', 'server');
