@@ -50,7 +50,7 @@ Creator.Objects.archive_borrow =
 			type:"select"
 			label:"利用目的"
 			defaultValue:"工作查考"
-			allowedValues:[
+			options:[
 				{label: "工作查考", value: "工作查考"},
 				{label: "遍史修志", value: "遍史修志"},
 				{label: "学术研究", value: "学术研究"},
@@ -58,15 +58,17 @@ Creator.Objects.archive_borrow =
 				{label: "宣传教育", value: "宣传教育"},
 				{label: "其他", value: "其他"},
 			]
+			allowedValues:["工作查考","遍史修志","学术研究","经济建设","宣传教育"]
 			sortable:true
 		use_fashion:
 			type:"select"
 			label:"利用方式"
 			defaultValue:"实体借阅"
-			allowedValues:[
+			options:[
 				{label: "实体借阅", value: "实体借阅"},
 				{label: "实体外借", value: "实体外借"},
 			]
+			allowedValues:["实体借阅","实体外借"]
 			sortable:true
 		approve:
 			type:"textarea"
@@ -105,7 +107,7 @@ Creator.Objects.archive_borrow =
 			type:"select"
 			label:"明细状态"
 			omit:true
-			allowedValues:[
+			options:[
 				{label:"申请中",value:"申请中"},
 				{label:"不予批准",value:"不予批准"},
 				{label:"已批准",value:"已批准"},
@@ -115,11 +117,12 @@ Creator.Objects.archive_borrow =
 				{label:"已归还",value:"已归还"},
 				{label:"逾期",value:"逾期"}
 				]
+			allowedValues:["申请中","不予批准","已批准","审批中","续借审批中","续借已审批","已归还","逾期"]
 			sortable:true
 		state:
 			type:"select"
 			label:"状态"
-			allowedValues:[
+			options:[
 				{label:"草稿",value:"draft"},
 				{label:"审批中",value:"pending"},
 				{label:"已核准",value:"approved"},
@@ -176,7 +179,8 @@ Creator.Objects.archive_borrow =
 			on: "server"
 			when: "after.insert"
 			todo: (userId, doc)->
-				Creator.Collections["archive_records"].direct.update({_id:doc.relate_record},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
+				console.log doc.relate_record?.o
+				Creator.Collections[doc.relate_record?.o].direct.update({_id:doc.relate_record},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
 				#Meteor.call("archive_new_audit",doc.relate_record,"借阅档案","成功",doc.space)
 				return true
 		"after.insert.client.default": 
