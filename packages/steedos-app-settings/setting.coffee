@@ -6,4 +6,4 @@ Creator.Apps.setting =
 	objects: ["archive_classification","archive_borrow",
 			  "archive_fonds","archive_audit",
 			  "archive_retention","archive_destroy",
-			  "archive_rules"]
+			  "archive_rules","reports"]

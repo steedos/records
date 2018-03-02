@@ -632,20 +632,8 @@ Creator.Objects.archive_wenshu =
 			omit:true
 	list_views:
 		default:
-			columns: [  "year",
-						"retention_peroid",
-						"item_number",
-						"title",
-						"document_number",
-						"document_date",
-						"classification_number",
-						"author",
-						"archive_date",
-						"archive_dept",
-						"security_classification",
-						"document_type",
-						"storage_location",
-						"applicant_name"]
+			columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
+						"archive_date","archive_dept","security_classification"]
 		recent:
 			label: "最近查看"
 			filter_scope: "space"
