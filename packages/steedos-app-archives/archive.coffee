@@ -11,8 +11,10 @@ Creator.Apps.archive =
 		"archive_rongyu",
 		"archive_shengxiang",
 		"archive_dianzi",
-		"archive_tongji",
-		"archive_shenji"
+		"archive_shenji",
+		"archive_borrow",
+		"archive_destroy",
+		 "reports",
 		# "archive_hetong",
 		# "archive_dichan",
 		# "archive_yinjian",
