@@ -100,8 +100,9 @@ yogiben:autoform-tags
 steedos:logger@0.0.2
 
 steedos:creator
+steedos:devexpress
+steedos:odata
 
 steedos:app-archive
 steedos:app-settings
-steedos:devexpress
-steedos:odata
+
