@@ -192,7 +192,7 @@ Creator.Objects.archive_borrow =
 		user:
 			allowCreate: true
 			allowDelete: true
-			allowEdit: fasle
+			allowEdit: false
 			allowRead: true
 			modifyAllRecords: false
 			viewAllRecords: false
