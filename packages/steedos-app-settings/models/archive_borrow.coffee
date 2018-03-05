@@ -84,9 +84,10 @@ Creator.Objects.archive_borrow =
 			label:"题名"
 			is_wide:true
 			reference_to:[
+						"archive_wenshu",
 						"archive_keji",
 						"archive_kejiditu",
-						"archive_wenshu",
+						
 						"archive_kuaiji",
 						"archive_rongyu"
 						# "archive_shengxiang",

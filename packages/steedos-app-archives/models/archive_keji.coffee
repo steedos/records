@@ -101,7 +101,6 @@ Creator.Objects.archive_keji =
 					swal("您已借阅了此档案，归还之前无需重复借阅")
 					return
 				console.log record_id
-				doc = Archive.createBorrowObject(record_id)
+				doc = Archive.createBorrowObject(object_name, record_id)
 				Creator.createObject("archive_borrow",doc)
-
 				return
