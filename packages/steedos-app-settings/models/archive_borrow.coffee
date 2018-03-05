@@ -88,11 +88,11 @@ Creator.Objects.archive_borrow =
 						"archive_kejiditu",
 						"archive_wenshu",
 						"archive_kuaiji",
-						"archive_rongyu",
-						"archive_shengxiang",
-						"archive_dianzi",
-						"archive_tongji",
-						"archive_shenji",
+						"archive_rongyu"
+						# "archive_shengxiang",
+						# "archive_dianzi",
+						# "archive_tongji",
+						# "archive_shenji",
 						# "archive_hetong",
 						# "archive_dichan",
 						# "archive_yinjian",
@@ -192,17 +192,17 @@ Creator.Objects.archive_borrow =
 		user:
 			allowCreate: true
 			allowDelete: true
-			allowEdit: false
+			allowEdit: fasle
 			allowRead: true
 			modifyAllRecords: false
 			viewAllRecords: false
 		admin:
 			allowCreate: true
 			allowDelete: true
-			allowEdit: true
+			allowEdit: false
 			allowRead: true
-			modifyAllRecords: true
-			viewAllRecords: false 
+			modifyAllRecords: false
+			viewAllRecords: true 
 	actions: 
 		restore:
 			label: "归还"
