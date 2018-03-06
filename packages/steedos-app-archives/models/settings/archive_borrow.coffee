@@ -79,6 +79,10 @@ Creator.Objects.archive_borrow =
 			type:"textarea"
 			label:"备注"
 			is_wide:true
+		relate_object:
+			type:"text"
+			label:"档案门类"
+			omit:true
 		relate_record:
 			type:"lookup"
 			label:"题名"

@@ -10,6 +10,7 @@ Creator.Objects.archive_wenshu =
 			type:"text"
 			label:"编号"
 			omit:true
+			group:"来源"
 		archives_name:
 			type:"text"
 			label:"档案馆名称"
