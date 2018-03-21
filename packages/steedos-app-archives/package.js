@@ -33,9 +33,9 @@ Package.onUse(function(api) {
 	api.addFiles('models/settings/archive_retention.coffee');
 	api.addFiles('models/settings/archive_rules.coffee');
 	api.addFiles('models/settings/archive_audit.coffee');
-	// api.addFiles('server/methods/archive_borrow.coffee', 'server');
-	// api.addFiles('server/methods/archive_destroy.coffee', 'server');
-	// api.addFiles('server/methods/archive_receive.coffee', 'server');
+	api.addFiles('server/methods/archive_borrow.coffee', 'server');
+	api.addFiles('server/methods/archive_destroy.coffee', 'server');
+	api.addFiles('server/methods/archive_receive.coffee', 'server');
 	// api.addFiles('server/methods/archive_transfer.coffee', 'server');
-	// api.addFiles('server/methods/archive_new_audit.coffee', 'server');
+	api.addFiles('server/methods/archive_new_audit.coffee', 'server');
 })

@@ -12,6 +12,21 @@ Creator.Objects.archive_destroy =
 			required:true
 			searchable:true
 			index:true
+		destroy_category:
+			type: "select"
+			label:"档案门类"
+			options: [
+				{label: "文书档案", value: "archive_wenshu"},
+				{label: "科技档案", value: "archive_keji"},
+				{label: "科技底图", value: "archive_kejiditu"},
+				{label: "会计档案", value: "archive_kuaiji"},
+				{label: "荣誉档案", value: "archive_rongyu"},
+				{label: "声像档案", value: "archive_shengxiang"},
+				{label: "电子档案", value: "archive_dianzi"},
+				{label: "审计档案", value: "archive_shenji"}
+			]
+			allowedValues:["archive_wenshu","destroy_category","archive_keji","archive_kejiditu","archive_kuaiji","archive_rongyu","archive_shengxiang","archive_dianzi","archive_shenji"]
+			required: true
 		destroy_reason:
 			label:"销毁原因"
 			type:"textarea"
@@ -52,35 +67,30 @@ Creator.Objects.archive_destroy =
 			modifyAllRecords: false
 			viewAllRecords: false 
 		admin:
-			allowCreate: true
-			allowDelete: true
-			allowEdit: true
-			allowRead: true
-			modifyAllRecords: true
-			viewAllRecords: true 
+			allowCreate: false
+			allowDelete: false
+			allowEdit: false
+			allowRead: false
+			modifyAllRecords: false
+			viewAllRecords: false 
 	actions: 
 		receive:
 			label:"执行销毁"
 			visible: true
 			on:"record"
 			todo:(object_name, record_id, fields)->
-				state = Creator.Collections["archive_destroy"].findOne({_id:record_id}).destroy_state
-				if state == "已销毁"					
-					swal("已执行过销毁")
-					return
-				else
-					space = Session.get("spaceId")
-					Meteor.call("archive_destroy",record_id,space,
-						(error,result) ->
-							if !result[0]
-								swal("请先添加档案至此销毁单")
-								return
-							else
-								text = "共销毁"+result[0]+"条,"+"成功"+result[1]+"条"
-								swal(text)
-							if result[0] == result[1]
-								Creator.Collections["archive_destroy"].update({_id:record_id},{$set:{destroy_state:"已销毁",destroy_time:new Date(),destroyed_by:Meteor.userId()}})	
-						)
+				space = Session.get("spaceId")
+				Meteor.call("archive_destroy",record_id,space,
+					(error,result) ->
+						if !result[0]
+							swal("请先添加档案至此销毁单")
+							return
+						else
+							text = "共销毁"+result[0]+"条,"+"成功"+result[1]+"条"
+							swal(text)
+						if result[0] == result[1]
+							Creator.Collections["archive_destroy"].update({_id:record_id},{$set:{destroy_state:"已销毁",destroy_time:new Date(),destroyed_by:Meteor.userId()}})	
+					)
 		print:
 			label:"打印"
 			visible: true

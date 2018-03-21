@@ -185,8 +185,13 @@ Creator.Objects.archive_borrow =
 			when: "after.insert"
 			todo: (userId, doc)->
 				console.log doc.relate_record?.o
-				Creator.Collections[doc.relate_record?.o].direct.update({_id:doc.relate_record},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
-				#Meteor.call("archive_new_audit",doc.relate_record,"借阅档案","成功",doc.space)
+				Creator.Collections[doc.relate_record?.o].direct.update({_id:doc.relate_record?.ids},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
+				borrow_entity = Creator.Collections["archive_borrow"].findOne doc._id
+				if borrow_entity
+					console.log doc.relate_record.ids
+					Meteor.call("archive_new_audit",doc.relate_record.ids[0],"借阅档案","成功",doc.space)
+				else
+					Meteor.call("archive_new_audit",doc.relate_record.ids[0],"借阅档案","失败",doc.space)
 				return true
 		"after.insert.client.default": 
 			on: "client"
@@ -207,7 +212,7 @@ Creator.Objects.archive_borrow =
 			allowEdit: false
 			allowRead: true
 			modifyAllRecords: false
-			viewAllRecords: true 
+			viewAllRecords: false 
 	actions: 
 		restore:
 			label: "归还"

@@ -31,12 +31,12 @@ Creator.Objects.archive_classification =
 			modifyAllRecords: false
 			viewAllRecords: false 
 		admin:
-			allowCreate: true
-			allowDelete: true
-			allowEdit: true
-			allowRead: true
-			modifyAllRecords: true
-			viewAllRecords: true 
+			allowCreate: false
+			allowDelete: false
+			allowEdit: false
+			allowRead: false
+			modifyAllRecords: false
+			viewAllRecords: false 
 	list_views:
 		default:
 			columns:["parent","name","departments"]

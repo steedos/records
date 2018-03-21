@@ -683,14 +683,16 @@ Creator.Objects.archive_wenshu =
 			modifyAllRecords: false
 			viewAllRecords: true
 			list_views:["default","recent","all","borrow"]
+			actions:["borrow"]
 		admin:
-			allowCreate: true
+			allowCreate: false
 			allowDelete: false
-			allowEdit: true
+			allowEdit: false
 			allowRead: true
 			modifyAllRecords: false
 			viewAllRecords: true
 			list_views:["default","recent","all","borrow"]
+			actions:["borrow"]
 	triggers:
 		"before.insert.server.default":
 			on: "server"
@@ -732,7 +734,7 @@ Creator.Objects.archive_wenshu =
 		"after.update.server.default":
 			on: "server"
 			when: "after.update"
-			todo: (userId, doc)->
+			todo: (object_name,userId, doc)->
 				duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
 				if duration
 					year = doc.document_date.getFullYear()+duration
@@ -744,7 +746,7 @@ Creator.Objects.archive_wenshu =
 				# 	if state=="已销毁"
 				# 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
 				#console.log doc.archive_destroy_id
-					Creator.Collections["archive_records"].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
+					Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
 				# destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
 				# Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
 	actions:
@@ -752,13 +754,15 @@ Creator.Objects.archive_wenshu =
 			label: "接收"
 			visible: true
 			on: "list"
-			todo:()->
+			todo:(object_name)->
+				console.log object_name
+				console.log Creator.TabularSelectedIds?[object_name].length
 				if Session.get("list_view_id")== "receive"
-					if Creator.TabularSelectedIds?["archive_records"].length == 0
+					if Creator.TabularSelectedIds?[object_name].length == 0
 						swal("请先选择要接收的档案")
 						return
 					space = Session.get("spaceId")
-					Meteor.call("archive_receive",Creator.TabularSelectedIds?["archive_records"],space,
+					Meteor.call("archive_receive",object_name,Creator.TabularSelectedIds?[object_name],space,
 						(error,result) ->
 							if result
 								text = "共接收"+result[0]+"条,"+"成功"+result[1]+"条"
@@ -768,45 +772,42 @@ Creator.Objects.archive_wenshu =
 			label:"移交"
 			visible:true
 			on: "list"
-			todo:()->
-				if Creator.TabularSelectedIds?["archive_records"].length == 0
+			todo:(object_name)->
+				if Creator.TabularSelectedIds?[object_name].length == 0
 					 swal("请先移交要移交的档案")
 					 return
 				# if Session.get("list_view_id")!= "all"
 				# 	swal("请在全部视图下操作")
 				# 	return
-				Meteor.call("archive_transfer",Creator.TabularSelectedIds?["archive_records"],
+				Meteor.call("archive_transfer",Creator.TabularSelectedIds?[object_name],
 					(error,result) ->
-							console.log error
+					#		console.log error
 							space = Session.get("spaceId")
 							if !error
 								toastr.success("移交成功，等待审核")
-								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?["archive_records"],"移交档案","成功",space)
+								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","成功",space)
 
 							else
 								toastr.error("移交失败，请再次操作")
-								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?["archive_records"],"移交档案","失败",space)
+								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","失败",space)
 
 							)
-		# destroy:
-		# 	label:"销毁"
-		# 	visible:true
-		# 	on: "list"
-		# 	todo:()->
-		# 		if Creator.TabularSelectedIds?["archive_records"].length == 0
-		# 			 swal("请先选择要销毁的档案")
-		# 			 return
-		# 		if Session.get("list_view_id")!= "destroy"
-		# 			swal("请在待销毁视图下操作")
-		# 			return
-		# 		else
-		# 			space = Session.get("spaceId")
-		# 			Meteor.call("archive_destroy",Creator.TabularSelectedIds?["archive_records"],space,
-		# 				(error,result) ->
-		# 					text = "共销毁"+Creator.TabularSelectedIds?["archive_records"].length+"条,"+"成功"+result+"条"
-		# 					swal(text)
+		destroy:
+			label:"销毁"
+			visible:true
+			on: "list"
+			todo:(object_name)->
+				if Creator.TabularSelectedIds?[object_name].length == 0
+					 swal("请先选择要销毁的档案")
+					 return
+				else
+					space = Session.get("spaceId")
+					Meteor.call("archive_destroy",Creator.TabularSelectedIds?[object_name],space,
+						(error,result) ->
+							text = "共销毁"+Creator.TabularSelectedIds?[object_name].length+"条,"+"成功"+result+"条"
+							swal(text)
 
-		# 				)
+						)
 		borrow:
 			label:"借阅"
 			visible:true
@@ -816,6 +817,6 @@ Creator.Objects.archive_wenshu =
 				if borrower == Meteor.userId()
 					swal("您已借阅了此档案，归还之前无需重复借阅")
 					return
-				console.log record_id
+		#		console.log record_id
 				doc = Archive.createBorrowObject(object_name, record_id)
 				Creator.createObject("archive_borrow",doc)

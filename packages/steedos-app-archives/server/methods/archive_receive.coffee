@@ -1,8 +1,9 @@
 Meteor.methods
-	archive_receive: (selectedIds,space) ->
+	archive_receive: (object_name,selectedIds,space) ->
+		console.log "2222"
 		result = []
 		successNum = 0
-		collection = Creator.Collections["archive_records"]
+		collection = Creator.Collections[object_name]
 		totalNum = selectedIds.length
 		result.push totalNum
 		selectedIds.forEach (selectedId)->
