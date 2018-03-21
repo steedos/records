@@ -49,7 +49,7 @@ flemay:less-autoprefixer@1.2.0
 fortawesome:fontawesome@4.7.0
 francocatena:status@1.5.3
 geojson-utils@1.0.10
-gwendall:simple-schema-i18n@0.2.3
+gwendall:simple-schema-i18n@0.3.0
 hot-code-push@1.0.4
 html-tools@1.0.11
 htmljs@1.0.11
@@ -69,6 +69,7 @@ matb33:collection-hooks@0.8.4
 mdg:validation-error@0.2.0
 meteor@1.7.2
 meteor-base@1.1.0
+meteorhacks:async@1.0.0
 meteorhacks:meteorx@1.0.2
 meteorhacks:ssr@2.2.0
 meteorhacks:subs-manager@1.6.4
@@ -160,6 +161,7 @@ steedos:cfs-worker@0.1.5
 steedos:cms@0.0.7
 steedos:cors@0.0.1
 steedos:creator@0.0.5
+steedos:creator-autoform-modals@0.0.1
 steedos:datatables-extensions@0.0.1
 steedos:devexpress@0.0.1
 steedos:e164-phones-countries@1.0.3
@@ -172,6 +174,8 @@ steedos:jstree@3.3.2
 steedos:lightning-design-system@0.0.1
 steedos:loaders-css@0.1.2
 steedos:logger@0.0.2
+steedos:oauth2-server@0.0.1
+steedos:object-database@0.0.1
 steedos:objects@0.0.1
 steedos:odata@0.0.1
 steedos:smsqueue@0.0.1

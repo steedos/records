@@ -37,9 +37,10 @@ aldeed:simple-schema
 aldeed:autoform
 steedos:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@4.17.37
-steedos:autoform-modals
+steedos:creator-autoform-modals
 steedos:autoform-bs-minicolors
 steedos:autoform-file
+steedos:devexpress
 
 gwendall:simple-schema-i18n
 
@@ -82,6 +83,8 @@ steedos:cfs-s3
 steedos:cfs-standard-packages
 steedos:cfs-ui
 
+steedos:oauth2-server
+
 smoral:sweetalert@1.1.1
 
 peppelg:bootstrap-3-modal@1.0.4
@@ -90,18 +93,22 @@ keepnox:perfect-scrollbar
 
 steedos:ionicons@0.1.7
 
+steedos:objects
+steedos:sso
+steedos:creator
 natestrauser:select2
 meteorhacks:unblock@1.1.0
 
+steedos:lightning-design-system
+
 steedos:cms
 
+# steedos:qhd-records
+
+steedos:odata
 yogiben:autoform-tags
 
 steedos:logger@0.0.2
 
-steedos:creator
-steedos:devexpress
-steedos:odata
-
+steedos:object-database
 steedos:app-archive
-
