@@ -631,6 +631,13 @@ Creator.Objects.archive_wenshu =
 			type:"datetime"
 			label:"附属更新时间"
 			omit:true
+		archive_transfer_id:
+			type:"master_detail"
+			label:"移交单"
+			filters:[["transfer_state", "$eq", "未移交"]]
+			depend_on:["transfer_state"]
+			reference_to:"archive_transfer"
+			group:"移交"
 	list_views:
 		default:
 			columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
@@ -655,6 +662,7 @@ Creator.Objects.archive_wenshu =
 			label:"待移交"
 			filter_scope: "space"
 			filters: [["is_transfered", "=", false]]
+			columns:["year","title","document_date","archive_dept","fonds_name","archive_transfer_id"]
 		destroy:
 			label:"待销毁"
 			filter_scope: "space"
@@ -755,8 +763,6 @@ Creator.Objects.archive_wenshu =
 			visible: true
 			on: "list"
 			todo:(object_name)->
-				console.log object_name
-				console.log Creator.TabularSelectedIds?[object_name].length
 				if Session.get("list_view_id")== "receive"
 					if Creator.TabularSelectedIds?[object_name].length == 0
 						swal("请先选择要接收的档案")
@@ -768,46 +774,46 @@ Creator.Objects.archive_wenshu =
 								text = "共接收"+result[0]+"条,"+"成功"+result[1]+"条"
 								swal(text)
 							)
-		transfer:
-			label:"移交"
-			visible:true
-			on: "list"
-			todo:(object_name)->
-				if Creator.TabularSelectedIds?[object_name].length == 0
-					 swal("请先移交要移交的档案")
-					 return
-				# if Session.get("list_view_id")!= "all"
-				# 	swal("请在全部视图下操作")
-				# 	return
-				Meteor.call("archive_transfer",Creator.TabularSelectedIds?[object_name],
-					(error,result) ->
-					#		console.log error
-							space = Session.get("spaceId")
-							if !error
-								toastr.success("移交成功，等待审核")
-								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","成功",space)
+		# transfer:
+		# 	label:"移交"
+		# 	visible:true
+		# 	on: "list"
+		# 	todo:(object_name)->
+		# 		if Creator.TabularSelectedIds?[object_name].length == 0
+		# 			 swal("请先移交要移交的档案")
+		# 			 return
+		# 		# if Session.get("list_view_id")!= "all"
+		# 		# 	swal("请在全部视图下操作")
+		# 		# 	return
+		# 		Meteor.call("archive_transfer",Creator.TabularSelectedIds?[object_name],
+		# 			(error,result) ->
+		# 			#		console.log error
+		# 					space = Session.get("spaceId")
+		# 					if !error
+		# 						toastr.success("移交成功，等待审核")
+		# 						Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","成功",space)
 
-							else
-								toastr.error("移交失败，请再次操作")
-								Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","失败",space)
+		# 					else
+		# 						toastr.error("移交失败，请再次操作")
+		# 						Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","失败",space)
 
-							)
-		destroy:
-			label:"销毁"
-			visible:true
-			on: "list"
-			todo:(object_name)->
-				if Creator.TabularSelectedIds?[object_name].length == 0
-					 swal("请先选择要销毁的档案")
-					 return
-				else
-					space = Session.get("spaceId")
-					Meteor.call("archive_destroy",Creator.TabularSelectedIds?[object_name],space,
-						(error,result) ->
-							text = "共销毁"+Creator.TabularSelectedIds?[object_name].length+"条,"+"成功"+result+"条"
-							swal(text)
+		# 					)
+		# destroy:
+		# 	label:"销毁"
+		# 	visible:true
+		# 	on: "list"
+		# 	todo:(object_name)->
+		# 		if Creator.TabularSelectedIds?[object_name].length == 0
+		# 			 swal("请先选择要销毁的档案")
+		# 			 return
+		# 		else
+		# 			space = Session.get("spaceId")
+		# 			Meteor.call("archive_destroy",Creator.TabularSelectedIds?[object_name],space,
+		# 				(error,result) ->
+		# 					text = "共销毁"+Creator.TabularSelectedIds?[object_name].length+"条,"+"成功"+result+"条"
+		# 					swal(text)
 
-						)
+		# 				)
 		borrow:
 			label:"借阅"
 			visible:true

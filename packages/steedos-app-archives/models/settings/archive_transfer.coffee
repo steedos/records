@@ -1,10 +1,10 @@
-Creator.Objects.archive_destroy = 
-	name: "archive_destroy"
+Creator.Objects.archive_transfer = 
+	name: "archive_transfer"
 	icon: "product_item"
-	label: "销毁"
+	label: "移交"
 	enable_search: true
 	fields:
-		destroy_title:
+		transfer_title:
 			type:"text"
 			label:"标题"
 			is_name:true
@@ -12,7 +12,7 @@ Creator.Objects.archive_destroy =
 			required:true
 			searchable:true
 			index:true
-		destroy_category:
+		transfer_category:
 			type: "select"
 			label:"档案门类"
 			options: [
@@ -25,29 +25,29 @@ Creator.Objects.archive_destroy =
 				{label: "电子档案", value: "archive_dianzi"},
 				{label: "审计档案", value: "archive_shenji"}
 			]
-			allowedValues:["archive_wenshu","destroy_category","archive_keji","archive_kejiditu","archive_kuaiji","archive_rongyu","archive_shengxiang","archive_dianzi","archive_shenji"]
+			allowedValues:["archive_wenshu","transfer_category","archive_keji","archive_kejiditu","archive_kuaiji","archive_rongyu","archive_shengxiang","archive_dianzi","archive_shenji"]
 			required: true
-		destroy_reason:
-			label:"销毁原因"
+		transfer_reason:
+			label:"移交原因"
 			type:"textarea"
 			is_wide:true
-		destroy_state:
+		transfer_state:
 			type:"text"
-			label:"销毁状态"
-			defaultValue:"未销毁"
+			label:"移交状态"
+			defaultValue:"未移交"
 			omit:true
-		destroy_time:
+		transfer_time:
 			type:"datetime"
-			label:"销毁时间"
+			label:"移交时间"
 			omit:true
-		destroyed_by:
+		transfer_by:
 			type: "lookup"
-			label:"销毁人"
+			label:"移交人"
 			reference_to: "users"
 			omit: true
 	list_views:
 		default:
-			columns:["destroy_title","destroy_reason","destroy_state","destroy_time","destroyed_by"]
+			columns:["transfer_title","transfer_reason","transfer_state","transfer_time","transfered_by"]
 		all:
 			label: "全部"
 			filter_scope: "space"
@@ -57,7 +57,7 @@ Creator.Objects.archive_destroy =
 			on: "server"
 			when: "before.insert"
 			todo: (userId, doc)->
-				doc.destroy_state = "未销毁"
+				doc.transfer_state = "未移交"
 	permission_set:
 		user:
 			allowCreate: false
@@ -74,22 +74,22 @@ Creator.Objects.archive_destroy =
 			modifyAllRecords: false
 			viewAllRecords: false 
 	actions: 
-		destroy:
-			label:"执行销毁"
+		receive:
+			label:"执行移交"
 			visible: true
 			on:"record"
 			todo:(object_name, record_id, fields)->
 				space = Session.get("spaceId")
-				Meteor.call("archive_destroy",record_id,space,
+				Meteor.call("archive_transfer",record_id,space,
 					(error,result) ->
 						if !result[0]
-							swal("请先添加档案至此销毁单")
+							swal("请先添加档案至此移交单")
 							return
 						else
-							text = "共销毁"+result[0]+"条,"+"成功"+result[1]+"条"
+							text = "共移交"+result[0]+"条,"+"成功"+result[1]+"条"
 							swal(text)
 						if result[0] == result[1]
-							Creator.Collections["archive_destroy"].update({_id:record_id},{$set:{destroy_state:"已销毁",destroy_time:new Date(),destroyed_by:Meteor.userId()}})	
+							Creator.Collections["archive_transfer"].update({_id:record_id},{$set:{transfer_state:"已移交",transfer_time:new Date(),transfered_by:Meteor.userId()}})	
 					)
 		submit:
 			label:"发起审批"
@@ -103,5 +103,3 @@ Creator.Objects.archive_destroy =
 						else
 							swal("提交失败，请再次提交")
 					)
-
-

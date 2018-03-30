@@ -28,6 +28,7 @@ Package.onUse(function(api) {
 	api.addFiles('models/settings/archive_borrow.coffee');
 	api.addFiles('models/settings/archive_classification.coffee');
 	api.addFiles('models/settings/archive_destroy.coffee');
+	api.addFiles('models/settings/archive_transfer.coffee');
 	api.addFiles('models/settings/archive_entity_relation.coffee');
 	api.addFiles('models/settings/archive_fonds.coffee');
 	api.addFiles('models/settings/archive_retention.coffee');
@@ -36,6 +37,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/archive_borrow.coffee', 'server');
 	api.addFiles('server/methods/archive_destroy.coffee', 'server');
 	api.addFiles('server/methods/archive_receive.coffee', 'server');
-	// api.addFiles('server/methods/archive_transfer.coffee', 'server');
+	api.addFiles('server/methods/archive_transfer.coffee', 'server');
 	api.addFiles('server/methods/archive_new_audit.coffee', 'server');
 })

@@ -14,6 +14,7 @@ Creator.Apps.archive =
 		"archive_shenji",
 		"archive_borrow",
 		"archive_destroy",
+		"archive_transfer",
 		"reports",
 		# "archive_hetong",
 		# "archive_dichan",
