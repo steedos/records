@@ -1,8 +1,8 @@
 Creator.Apps.archive = 
 	url: "/app/archive"
-	name: "档案管理"
+	name: "档案"
 	icon: "document" 
-	icon_slds: "document" 
+	icon_slds: "poll" 
 	objects: [
 		"archive_keji",
 		"archive_kejiditu",

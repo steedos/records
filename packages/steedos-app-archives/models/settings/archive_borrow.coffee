@@ -209,10 +209,10 @@ Creator.Objects.archive_borrow =
 		admin:
 			allowCreate: true
 			allowDelete: true
-			allowEdit: false
+			allowEdit: true
 			allowRead: true
-			modifyAllRecords: false
-			viewAllRecords: false 
+			modifyAllRecords: true
+			viewAllRecords: true 
 	actions: 
 		restore:
 			label: "归还"

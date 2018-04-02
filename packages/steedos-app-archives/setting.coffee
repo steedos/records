@@ -1,8 +1,8 @@
-Creator.Apps.setting = 
-	url: "/app/setting"
-	name: "系统维护"
+Creator.Apps.archive_setting = 
+	url: "/app/archive_setting"
+	name: "档案设置"
 	icon: "document" 
-	icon_slds: "document" 
+	icon_slds: "custom" 
 	objects: ["archive_classification",
 			  "archive_fonds",
 			  "archive_audit",
