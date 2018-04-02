@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:app-archive',
-	version: '0.0.1',
+	version: '0.0.2',
 	summary: 'Creator archive',
 	git: ''
 });
