@@ -41,6 +41,9 @@ Creator.Objects.archive_audit =
 			label: "行为对象"
 			type: "master_detail"
 			reference_to: "archive_wenshu"
+		instace_id:
+			label:"表单"
+			type:"text"
 	list_views:
 		default:
 			columns: ["business_status", "business_activity","action_time","action_administrative_records_id","action_mandate",
