@@ -1,17 +1,27 @@
 Meteor.methods
 
 	# 查看原文：找出最后一版正文或者不带签章的PDF版本
-	view_main_doc: (record_id) ->
-		cfs.files = Creator.Collections["cfs.files.filerecord"]
-		file_obj = cfs.files.findOne({
-			'metadata.record_id': record_id,
-			'metadata.main': true,
-			'metadata.current': true,
-			'metadata.is_private': false})
-		return file_obj?._id
+	view_main_doc: (object_name,record_id) ->
+		obj = Creator.Collections[object_name].findOne({_id:record_id})
+		result = {}
+		if (obj.end_date - new Date()) >0		
+			if obj.state == "approved"
+				cfs.files = Creator.Collections["cfs.files.filerecord"]
+				
+				file_obj = cfs.files.findOne({
+					'metadata.record_id': obj.relate_record?.ids[0],
+					'metadata.main': true,
+					'metadata.current': true,
+					'metadata.is_private': false})
+				result['fileId'] = file_obj?._id
+			else
+				result['state'] = obj.state
+		else
+			result['end_date'] = obj.end_date
+		return result		
 
-	submit_borrow:(record_id)->
-		Creator.Collections["archive_borrow"].update({_id:record_id},{$set:{state:"pending"}})
+	submit_borrow:(object_name,record_id)->
+		Creator.Collections[object_name].update({_id:record_id},{$set:{state:"pending"}})
 
 	restore:(record_id,space)->
 		Creator.Collections["archive_borrow"].update({_id:record_id},{$set:{is_deleted:true}},

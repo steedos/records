@@ -3,7 +3,6 @@ Creator.Objects.archive_borrow =
 	icon: "file"
 	label: "借阅"
 	enable_search: false
-	enable_files:true
 	fields:
 		borrow_name:
 			type:"text"
@@ -251,30 +250,25 @@ Creator.Objects.archive_borrow =
 			visible:true
 			on: "record"
 			todo:(object_name, record_id, fields)->
-				if Session.get("list_view_id") =="mine"
-					now = new Date()
-					object_borrow = Creator.Collections["archive_borrow"].findOne({_id:record_id},{fields:{state:1,end_date:1,relate_record:1}})
-					if object_borrow.state == "approved"
-						if (object_borrow.end_date - now) >0
-							Meteor.call("view_main_doc",object_borrow.relate_record,
-								(error,result) ->
-									if result
-										window.location = "/api/files/files/#{result}?download=true"
-									else
-										swal("未找到原文")
-							)
+				Meteor.call("view_main_doc",object_name,record_id,
+					(error,result) ->
+						if result.state
+							swal("审核通过之后才可查看原文")
+						else if result.end_date
+							swal("已到归还日期，不能查看原文")								
+						else if result.fileId
+							window.location = "/api/files/files/#{result.fileId}?download=true"
 						else
-							swal("已到归还日期，不能查看原文")
-					else
-						swal("审核通过之后才可查看原文")
-				else
-					swal("请在我的借阅视图下执行操作")
+							swal("未找到原文")
+				)
+				
+					
 		submit:
 			label:"提交审批"
 			visible:true
 			on:"record"
 			todo:(object_name, record_id, fields)->
-				Meteor.call('submit_borrow',record_id,(error,result)->
+				Meteor.call('submit_borrow',object_name,record_id,(error,result)->
 					if !error
 						swal("提交成功，等待审核")
 					else

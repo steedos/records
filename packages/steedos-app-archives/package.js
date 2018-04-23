@@ -6,7 +6,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-
+	api.use('steedos:creator@0.0.5')
 	api.use('steedos:objects@0.0.1');
 	api.use('coffeescript@1.11.1_4');
 	api.addFiles('core.coffee');	

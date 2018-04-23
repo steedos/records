@@ -31,6 +31,17 @@ Creator.Objects.archive_destroy =
 			label:"销毁原因"
 			type:"textarea"
 			is_wide:true
+		state:
+			type:"select"
+			label:"状态"
+			options:[
+				{label:"草稿",value:"draft"},
+				{label:"审批中",value:"pending"},
+				{label:"已核准",value:"approved"},
+				{label:"已驳回",value:"rejected"}
+			]
+			defaultValue:"draft"
+			omit:true
 		destroy_state:
 			type:"text"
 			label:"销毁状态"
@@ -95,7 +106,7 @@ Creator.Objects.archive_destroy =
 			visible:true
 			on:"record"
 			todo:(object_name, record_id, fields)->
-				Meteor.call('submit_borrow',record_id,
+				Meteor.call('submit_borrow',object_name,record_id,
 					(error,result)->
 						if !error
 							swal("提交成功，等待审核")
