@@ -45,12 +45,11 @@ Creator.Objects.archive_destroy =
 			label:"销毁人"
 			reference_to: "users"
 			omit: true
-	list_views:
-		default:
-			columns:["destroy_title","destroy_reason","destroy_state","destroy_time","destroyed_by"]
+	list_views:	
 		all:
 			label: "全部"
 			filter_scope: "space"
+			columns:["destroy_title","destroy_reason","destroy_state","destroy_time","destroyed_by"]
 			#filters: [["is_received", "$eq", true]] results: { $elemMatch: { $gte: 80, $lt: 85 } }
 	triggers:
 		"before.insert.server.default": 

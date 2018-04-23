@@ -45,12 +45,11 @@ Creator.Objects.archive_transfer =
 			label:"移交人"
 			reference_to: "users"
 			omit: true
-	list_views:
-		default:
-			columns:["transfer_title","transfer_reason","transfer_state","transfer_time","transfered_by"]
+	list_views:	
 		all:
 			label: "全部"
 			filter_scope: "space"
+			columns:["transfer_title","transfer_reason","transfer_state","transfer_time","transfered_by"]
 			#filters: [["is_received", "$eq", true]] results: { $elemMatch: { $gte: 80, $lt: 85 } }
 	triggers:
 		"before.insert.server.default": 

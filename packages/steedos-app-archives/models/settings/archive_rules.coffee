@@ -42,8 +42,7 @@ Creator.Objects.archive_rules =
 			modifyAllRecords: true
 			viewAllRecords: true 
 	list_views:
-		default:
-			columns:["fieldname","classification","keywords","retention"]
 		all:
 			label:"全部分类规则"
+			columns:["fieldname","classification","keywords","retention"]
 

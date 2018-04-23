@@ -639,9 +639,6 @@ Creator.Objects.archive_wenshu =
 			reference_to:"archive_transfer"
 			group:"移交"
 	list_views:
-		default:
-			columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
-						"archive_date","archive_dept","security_classification"]
 		recent:
 			label: "最近查看"
 			filter_scope: "space"
@@ -649,6 +646,9 @@ Creator.Objects.archive_wenshu =
 			label: "全部"
 			filter_scope: "space"
 			filters: [["is_received", "=", true]]
+			#columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
+					#	"archive_date","archive_dept","security_classification"]
+			columns:['archival_code',"author","title","document_date","total_number_of_pages","annotation"]
 		receive:
 			label:"待接收"
 			filter_scope: "space"
@@ -668,6 +668,7 @@ Creator.Objects.archive_wenshu =
 			filter_scope: "space"
 			filters: [["is_received", "=", true],["destroy_date","<=",new Date()],["is_destroyed", "=", false]]
 			columns:["year","title","document_date","destroy_date","archive_destroy_id"]
+
 		# transfered:
 		# 	label:"已移交"
 		# 	filter_scope: "space"
@@ -706,8 +707,8 @@ Creator.Objects.archive_wenshu =
 			on: "server"
 			when: "before.insert"
 			todo: (userId, doc)->
-				#doc.is_received = false
-				#doc.is_destroyed = false
+				doc.is_received = false
+				doc.is_destroyed = false
 				doc.is_borrowed = false
 				doc.created = new Date()
 				doc.created_by = userId

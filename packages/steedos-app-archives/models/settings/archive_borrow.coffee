@@ -3,6 +3,7 @@ Creator.Objects.archive_borrow =
 	icon: "file"
 	label: "借阅"
 	enable_search: false
+	enable_files:true
 	fields:
 		borrow_name:
 			type:"text"
@@ -142,12 +143,11 @@ Creator.Objects.archive_borrow =
 			defaultValue:false
 			omit:true 
 	list_views:
-		default:
-			columns:["borrow_name","created","end_date","created_by","unit_info
-			","deparment_info","phone_number","relate_record","year"]
 		all:
 			label:"所有借阅记录"
 			filter_scope: "space"
+			columns:["borrow_name","created","end_date","created_by","unit_info
+			","deparment_info","phone_number","relate_record","year"]
 		mine:
 			label:"我的借阅记录"
 			filter_scope: "mine"

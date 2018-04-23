@@ -50,7 +50,6 @@ Creator.Objects.archive_entity_relation =
 			type: "master_detail"
 			reference_to: "archive_wenshu"
 	list_views:
-		default:
-			columns:["entity_identifier","relation_type","relation","relation_description"]
 		all:
 			label:"所有全宗"
+			columns:["entity_identifier","relation_type","relation","relation_description"]

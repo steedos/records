@@ -38,7 +38,6 @@ Creator.Objects.archive_classification =
 			modifyAllRecords: true
 			viewAllRecords: true 
 	list_views:
-		default:
-			columns:["parent","name","departments"]
 		all:
 			label:"全部分类"
+			columns:["parent","name","departments"]

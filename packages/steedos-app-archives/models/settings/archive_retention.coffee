@@ -21,10 +21,9 @@ Creator.Objects.archive_retention =
 			label:"对应年限"
 			required:true
 	list_views:
-		default:
-			columns:["name","code","years"]
 		all:
 			label:"所有"
+			columns:["name","code","years"]
 	permission_set:
 		user:
 			allowCreate: false

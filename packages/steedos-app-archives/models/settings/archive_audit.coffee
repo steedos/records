@@ -45,16 +45,14 @@ Creator.Objects.archive_audit =
 			label:"表单"
 			type:"text"
 	list_views:
-		default:
-			columns: ["business_status", "business_activity","action_time","action_administrative_records_id","action_mandate",
-						"action_description"]
 		recent:
 			label: "最近查看"
 			filter_scope: "space"
 		all:
 			label: "全部"
 			filter_scope: "space"
-
+			columns: ["business_status", "business_activity","action_time","action_administrative_records_id","action_mandate",
+						"action_description"]
 	permission_set:
 		user:
 			allowCreate: false

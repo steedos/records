@@ -17,9 +17,8 @@ Creator.Objects.archive_fonds =
 			is_wide:true
 			required:true
 	list_views:
-		default:
-			columns:["name","code"]
 		all:
+			columns:["name","code"]
 			label:"所有全宗"
 	permission_set:
 		user:
