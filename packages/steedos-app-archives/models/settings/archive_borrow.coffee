@@ -218,16 +218,13 @@ Creator.Objects.archive_borrow =
 			visible: true
 			on: "record"
 			todo:(object_name, record_id, fields)->
-				if Session.get("list_view_id") =="mine"
-					Meteor.call('restore',record_id,Session.get("spaceId"),
-						(error,result)->
-							if !error
-								swal("归还成功")
-							else
-								swal("归还失败")
-							)
-				else
-					swal("请在我的借阅视图下执行操作")
+				Meteor.call('restore',object_name,record_id,Session.get("spaceId"),
+					(error,result)->
+						if !error
+							swal("归还成功")
+						else
+							swal("归还失败")
+						)
 
 
 		renew:
@@ -235,16 +232,13 @@ Creator.Objects.archive_borrow =
 			visible:true
 			on: "record"
 			todo:(object_name, record_id, fields)->
-				if Session.get("list_view_id") =="mine"
-					Meteor.call('renew',record_id,Session.get("spaceId"),
-						(error,result)->
-							if !error
-								swal("续借成功")
-							else
-								swal("续借失败")
-							)
-				else
-					swal("请在我的借阅视图下执行操作")
+				Meteor.call('renew',object_name,record_id,Session.get("spaceId"),
+					(error,result)->
+						if !error
+							swal("续借成功")
+						else
+							swal("续借失败")
+						)
 		view:
 			label:"查看原文"
 			visible:true
