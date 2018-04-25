@@ -187,7 +187,6 @@ Creator.Objects.archive_borrow =
 				Creator.Collections[doc.relate_record?.o].direct.update({_id:doc.relate_record?.ids},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
 				borrow_entity = Creator.Collections["archive_borrow"].findOne doc._id
 				if borrow_entity
-					console.log doc.relate_record.ids
 					Meteor.call("archive_new_audit",doc.relate_record.ids[0],"借阅档案","成功",doc.space)
 				else
 					Meteor.call("archive_new_audit",doc.relate_record.ids[0],"借阅档案","失败",doc.space)
@@ -257,15 +256,4 @@ Creator.Objects.archive_borrow =
 				)
 				
 					
-		submit:
-			label:"提交审批"
-			visible:true
-			on:"record"
-			todo:(object_name, record_id, fields)->
-				Meteor.call('submit_borrow',object_name,record_id,(error,result)->
-					if !error
-						swal("提交成功，等待审核")
-					else
-						swal("提交失败，请再次提交")
-				)
-
+		

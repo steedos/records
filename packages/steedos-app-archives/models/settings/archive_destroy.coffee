@@ -100,17 +100,5 @@ Creator.Objects.archive_destroy =
 						if result[0] == result[1]
 							Creator.Collections["archive_destroy"].update({_id:record_id},{$set:{destroy_state:"已销毁",destroy_time:new Date(),destroyed_by:Meteor.userId()}})	
 					)
-		submit:
-			label:"发起审批"
-			visible:true
-			on:"record"
-			todo:(object_name, record_id, fields)->
-				Meteor.call('submit_borrow',object_name,record_id,
-					(error,result)->
-						if !error
-							swal("提交成功，等待审核")
-						else
-							swal("提交失败，请再次提交")
-					)
 
 
