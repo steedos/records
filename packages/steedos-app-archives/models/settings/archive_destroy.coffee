@@ -33,7 +33,7 @@ Creator.Objects.archive_destroy =
 			is_wide:true
 		state:
 			type:"select"
-			label:"状态"
+			label:"审批状态"
 			options:[
 				{label:"草稿",value:"draft"},
 				{label:"审批中",value:"pending"},
