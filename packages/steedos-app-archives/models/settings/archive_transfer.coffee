@@ -27,6 +27,15 @@ Creator.Objects.archive_transfer =
 			]
 			allowedValues:["archive_wenshu","transfer_category","archive_keji","archive_kejiditu","archive_kuaiji","archive_rongyu","archive_shengxiang","archive_dianzi","archive_shenji"]
 			required: true
+		accept_unit:
+			label:'接收单位'
+			type:'master_detail'
+			reference_to:'archive_fonds'
+			required:true
+		transfer_state:
+			type:"text"
+			label:"移交状态"
+			defaultValue:"未移交"
 		transfer_reason:
 			label:"移交原因"
 			type:"textarea"
@@ -41,11 +50,6 @@ Creator.Objects.archive_transfer =
 				{label:"已驳回",value:"rejected"}
 			]
 			defaultValue:"draft"
-			omit:true
-		transfer_state:
-			type:"text"
-			label:"移交状态"
-			defaultValue:"未移交"
 			omit:true
 		transfer_time:
 			type:"datetime"
@@ -98,8 +102,6 @@ Creator.Objects.archive_transfer =
 						else
 							text = "共移交"+result[0]+"条,"+"成功"+result[1]+"条"
 							swal(text)
-						if result[0] == result[1]
-							Creator.Collections["archive_transfer"].update({_id:record_id},{$set:{transfer_state:"已移交",transfer_time:new Date(),transfered_by:Meteor.userId()}})	
 					)
 		submit:
 			label:"发起审批"

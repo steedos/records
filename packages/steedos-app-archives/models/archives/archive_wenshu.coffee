@@ -60,7 +60,7 @@ Creator.Objects.archive_wenshu =
 
 		archival_code:
 			type:"text"
-			label:"档号"
+			label:"文号"
 			group:"档号"
 			# omit:true
 
@@ -631,6 +631,11 @@ Creator.Objects.archive_wenshu =
 			type:"datetime"
 			label:"附属更新时间"
 			omit:true
+		related_archive:
+			label:'关联文件'
+			type:'lookup'
+			reference_to:'archive_wenshu'
+			multiple:true
 		archive_transfer_id:
 			type:"master_detail"
 			label:"移交单"
@@ -648,7 +653,7 @@ Creator.Objects.archive_wenshu =
 			filters: [["is_received", "=", true]]
 			#columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
 					#	"archive_date","archive_dept","security_classification"]
-			columns:['archival_code',"author","title","document_date","total_number_of_pages","annotation"]
+			columns:['archival_code',"author","title","document_date","total_number_of_pages","annotation",'archive_transfer_id']
 		receive:
 			label:"待接收"
 			filter_scope: "space"
@@ -658,11 +663,11 @@ Creator.Objects.archive_wenshu =
 		# 	filter_scope:"space"
 		# 	filters:[["is_received", "=", true]]
 		# 	columns:["year","title","received","received_by","borrowed_by"]
-		transfer:
-			label:"待移交"
+		transfered:
+			label:"已移交"
 			filter_scope: "space"
-			filters: [["is_transfered", "=", false]]
-			columns:["year","title","document_date","archive_dept","fonds_name","archive_transfer_id"]
+			filters: [["is_transfered", "=", true]]
+			columns:["title","fonds_name","archive_transfer_id","transfered","transfered_by"]
 		destroy:
 			label:"待销毁"
 			filter_scope: "space"

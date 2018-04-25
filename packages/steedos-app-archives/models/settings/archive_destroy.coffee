@@ -41,7 +41,6 @@ Creator.Objects.archive_destroy =
 				{label:"已驳回",value:"rejected"}
 			]
 			defaultValue:"draft"
-			omit:true
 		destroy_state:
 			type:"text"
 			label:"销毁状态"
