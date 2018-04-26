@@ -19,6 +19,7 @@ Creator.Objects.archive_fonds =
 	list_views:
 		all:
 			columns:["name","code"]
+			filter_scope: "space"
 			label:"所有全宗"
 	permission_set:
 		user:

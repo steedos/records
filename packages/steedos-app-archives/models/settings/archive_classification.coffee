@@ -40,4 +40,5 @@ Creator.Objects.archive_classification =
 	list_views:
 		all:
 			label:"全部分类"
+			filter_scope: "space"
 			columns:["parent","name","departments"]

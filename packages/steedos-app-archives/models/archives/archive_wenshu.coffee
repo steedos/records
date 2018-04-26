@@ -631,7 +631,7 @@ Creator.Objects.archive_wenshu =
 			type:"datetime"
 			label:"附属更新时间"
 			omit:true
-		related_archive:
+		related_archives:
 			label:'关联文件'
 			type:'lookup'
 			reference_to:'archive_wenshu'

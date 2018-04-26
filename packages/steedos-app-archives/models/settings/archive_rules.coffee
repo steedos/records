@@ -44,5 +44,6 @@ Creator.Objects.archive_rules =
 	list_views:
 		all:
 			label:"全部分类规则"
+			filter_scope: "space"
 			columns:["fieldname","classification","keywords","retention"]
 

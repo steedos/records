@@ -52,4 +52,5 @@ Creator.Objects.archive_entity_relation =
 	list_views:
 		all:
 			label:"所有全宗"
+			filter_scope: "space"
 			columns:["entity_identifier","relation_type","relation","relation_description"]

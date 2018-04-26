@@ -23,6 +23,7 @@ Creator.Objects.archive_retention =
 	list_views:
 		all:
 			label:"所有"
+			filter_scope: "space"
 			columns:["name","code","years"]
 	permission_set:
 		user:
