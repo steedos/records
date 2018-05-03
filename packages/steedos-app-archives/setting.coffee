@@ -7,5 +7,6 @@ Creator.Apps.archive_setting =
 			  "archive_fonds",
 			  "archive_audit",
 			  "archive_retention",
-			  "archive_rules"
+			  "archive_rules",
+			  "archive_organization"
 			  ]

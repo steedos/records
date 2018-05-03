@@ -1,3 +1,15 @@
+set_archivecode = (record_id)->
+	record = Creator.Collections["archive_wenshu"].findOne(record_id,{fields:{archival_code:1,fonds_name:1,retention_peroid:1,organizational_structure:1,year:1,item_number:1}})
+	if record?.item_number and record?.fonds_name and  record?.retention_peroid and record?.organizational_structure and record?.year
+		fonds_name_code = Creator.Collections["archive_fonds"].findOne(record.fonds_name,{fields:{code:1}})?.code
+		retention_peroid_code = Creator.Collections["archive_retention"].findOne(record.retention_peroid,{fields:{code:1}})?.code
+		organizational_structure_code = Creator.Collections["archive_organization"].findOne(record.organizational_structure,{fields:{code:1}})?.code
+		#organizational_structure_code = "BGS"
+		year = record.year
+		item_number = (Array(6).join('0') + record.item_number).slice(-4)
+		archive_code = fonds_name_code + "-WS" + "-"+year + "-"+ retention_peroid_code + "-"+ organizational_structure_code + "-"+item_number
+		Creator.Collections["archive_wenshu"].direct.update(record_id,{$set:{archival_code:archive_code}})
+		
 Creator.Objects.archive_wenshu =
 	name: "archive_wenshu"
 	icon: "record"
@@ -60,10 +72,9 @@ Creator.Objects.archive_wenshu =
 
 		archival_code:
 			type:"text"
-			label:"文号"
+			label:"档号"
 			group:"档号"
 			# omit:true
-
 		fonds_identifier:
 			type:"master_detail"
 			label:"全宗号"
@@ -95,8 +106,9 @@ Creator.Objects.archive_wenshu =
 			group:"档号"
 
 		organizational_structure:
-			type:"text"
+			type:"master_detail"
 			label:"机构"
+			reference_to: "archive_organization"
 			group:"档号"
 
 		file_number:
@@ -639,8 +651,6 @@ Creator.Objects.archive_wenshu =
 		archive_transfer_id:
 			type:"master_detail"
 			label:"移交单"
-			filters:[["transfer_state", "$eq", "未移交"]]
-			depend_on:["transfer_state"]
 			reference_to:"archive_transfer"
 			group:"移交"
 	list_views:
@@ -653,16 +663,11 @@ Creator.Objects.archive_wenshu =
 			filters: [["is_received", "=", true]]
 			#columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
 					#	"archive_date","archive_dept","security_classification"]
-			columns:['archival_code',"author","title","document_date","total_number_of_pages","annotation",'archive_transfer_id']
+			columns:['item_number','archival_code',"author","title","electronic_record_code","total_number_of_pages","annotation",'archive_transfer_id']
 		receive:
 			label:"待接收"
 			filter_scope: "space"
 			filters: [["is_received", "=", false]]
-		# received:
-		# 	label:"已接收"
-		# 	filter_scope:"space"
-		# 	filters:[["is_received", "=", true]]
-		# 	columns:["year","title","received","received_by","borrowed_by"]
 		transfered:
 			label:"已移交"
 			filter_scope: "space"
@@ -673,21 +678,6 @@ Creator.Objects.archive_wenshu =
 			filter_scope: "space"
 			filters: [["is_received", "=", true],["destroy_date","<=",new Date()],["is_destroyed", "=", false]]
 			columns:["year","title","document_date","destroy_date","archive_destroy_id"]
-
-		# transfered:
-		# 	label:"已移交"
-		# 	filter_scope: "space"
-		# 	filters: [["is_transfered", "=", true]]
-		# destroyed:
-		# 	label:"已销毁"
-		# 	filter_scope: "space"
-		# 	filters: [["is_destroyed", "=", true]]
-		# 	columns:["year","title","document_date","destroy_date","destroyed","archive_destroy_id"]
-		# borrow:
-		# 	label:"已借阅"
-		# 	filter_scope: "space"
-		# 	filters:[["is_borrowed","=",true],["is_received","=",true]]
-		# 	columns:["title","borrowed","borrowed_by"]
 	permission_set:
 		user:
 			allowCreate: false
@@ -745,25 +735,44 @@ Creator.Objects.archive_wenshu =
 					day = doc.document_date.getDate()
 					doc.destroy_date = new Date(year,month,day)
 				return true
+		"before.update.server.default":
+			on: "server"
+			when: "before.update"
+			todo: (userId, doc, fieldNames, modifier, options)->
+				doc.retention_peroid = "DRmxfw7ByKd92gXsK"
+				
+				#console.log doc
 		"after.update.server.default":
 			on: "server"
 			when: "after.update"
-			todo: (object_name,userId, doc)->
-				duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
-				if duration
-					year = doc.document_date.getFullYear()+duration
-					month = doc.document_date.getMonth()
-					day = doc.document_date.getDate()
-					destroy_date = new Date(year,month,day)
-				# if doc.archive_destroy_id
-				# 	state = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).destroy_state
-				# 	if state=="已销毁"
-				# 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
-				#console.log doc.archive_destroy_id
-					Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
-				# destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
-				# Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
+			todo: (userId, doc, fieldNames, modifier, options)->
+				if modifier['$set']?.item_number or modifier['$set']?.organizational_structure or modifier['$set']?.retention_peroid
+					set_archivecode(doc._id)
+				# duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
+				# if duration
+				# 	year = doc.document_date.getFullYear()+duration
+				# 	month = doc.document_date.getMonth()
+				# 	day = doc.document_date.getDate()
+				# 	destroy_date = new Date(year,month,day)
+				# # if doc.archive_destroy_id
+				# # 	state = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).destroy_state
+				# # 	if state=="已销毁"
+				# # 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
+				# #console.log doc.archive_destroy_id
+				# 	Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
+				# # destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
+				# # Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
 	actions:
+		number_adjuct:
+			label:'编号调整'
+			visible:true
+			on:'list'
+			todo:(object_name)->
+				if Creator.TabularSelectedIds?[object_name].length == 0
+					swal("请先选择要接收的档案")
+					return
+				init_num = prompt("输入初始件号值")
+				Meteor.call("archive_item_number",object_name,Creator.TabularSelectedIds?[object_name],init_num)
 		receive:
 			label: "接收"
 			visible: true

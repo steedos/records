@@ -23,8 +23,9 @@ Package.onUse(function(api) {
 	api.addFiles('models/archives/archive_dianzi.coffee');
 	api.addFiles('models/archives/archive_tongji.coffee');
 	api.addFiles('models/archives/archive_shenji.coffee');
-
+	
 	api.addFiles('setting.coffee');
+	api.addFiles('models/settings/archive_organization.coffee');
 	api.addFiles('models/settings/archive_borrow.coffee');
 	api.addFiles('models/settings/archive_classification.coffee');
 	api.addFiles('models/settings/archive_destroy.coffee');
