@@ -2,3 +2,4 @@ node_modules/
 pm2.json
 settings.json
 start.bat
+steedos-app-workflow/
