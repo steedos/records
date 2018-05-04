@@ -789,46 +789,18 @@ Creator.Objects.archive_wenshu =
 								text = "共接收"+result[0]+"条,"+"成功"+result[1]+"条"
 								swal(text)
 							)
-		# transfer:
-		# 	label:"移交"
-		# 	visible:true
-		# 	on: "list"
-		# 	todo:(object_name)->
-		# 		if Creator.TabularSelectedIds?[object_name].length == 0
-		# 			 swal("请先移交要移交的档案")
-		# 			 return
-		# 		# if Session.get("list_view_id")!= "all"
-		# 		# 	swal("请在全部视图下操作")
-		# 		# 	return
-		# 		Meteor.call("archive_transfer",Creator.TabularSelectedIds?[object_name],
-		# 			(error,result) ->
-		# 			#		console.log error
-		# 					space = Session.get("spaceId")
-		# 					if !error
-		# 						toastr.success("移交成功，等待审核")
-		# 						Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","成功",space)
-
-		# 					else
-		# 						toastr.error("移交失败，请再次操作")
-		# 						Meteor.call("archive_new_audit",Creator.TabularSelectedIds?[object_name],"移交档案","失败",space)
-
-		# 					)
-		# destroy:
-		# 	label:"销毁"
-		# 	visible:true
-		# 	on: "list"
-		# 	todo:(object_name)->
-		# 		if Creator.TabularSelectedIds?[object_name].length == 0
-		# 			 swal("请先选择要销毁的档案")
-		# 			 return
-		# 		else
-		# 			space = Session.get("spaceId")
-		# 			Meteor.call("archive_destroy",Creator.TabularSelectedIds?[object_name],space,
-		# 				(error,result) ->
-		# 					text = "共销毁"+Creator.TabularSelectedIds?[object_name].length+"条,"+"成功"+result+"条"
-		# 					swal(text)
-
-		# 				)
+		export2xml:
+			label:"导出XML"
+			visible:true
+			on: "list"
+			todo:(object_name, record_id)->
+				# 转为XML文件
+				Meteor.call("archive_export",object_name,
+						(error,result) ->
+							if result
+								text = "记录导出路径："
+								swal(text + result)
+							)
 		borrow:
 			label:"借阅"
 			visible:true
@@ -838,6 +810,5 @@ Creator.Objects.archive_wenshu =
 				if borrower == Meteor.userId()
 					swal("您已借阅了此档案，归还之前无需重复借阅")
 					return
-		#		console.log record_id
 				doc = Archive.createBorrowObject(object_name, record_id)
 				Creator.createObject("archive_borrow",doc)

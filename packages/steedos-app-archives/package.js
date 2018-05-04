@@ -40,4 +40,6 @@ Package.onUse(function(api) {
 	api.addFiles('server/methods/archive_receive.coffee', 'server');
 	api.addFiles('server/methods/archive_transfer.coffee', 'server');
 	api.addFiles('server/methods/archive_new_audit.coffee', 'server');
+	api.addFiles('server/methods/archive_export.coffee', 'server');
+
 })
