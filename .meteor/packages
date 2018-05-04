@@ -103,8 +103,6 @@ steedos:lightning-design-system
 
 steedos:cms
 
-# steedos:qhd-records
-
 steedos:odata
 yogiben:autoform-tags
 
@@ -112,3 +110,7 @@ steedos:logger@0.0.2
 
 steedos:object-database
 steedos:app-archive
+
+steedos:app-workflow
+
+steedos:records-sync

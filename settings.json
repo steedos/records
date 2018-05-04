@@ -17,5 +17,21 @@
 		"es_search_index": "steedos",
 
 		"cfs_file_server": "http://192.1.1.141:315"
+  },
+  "records_qhd": {
+    "spaces": ["Af8eM6mAHo7wMDqD3"],
+    "-recurrenceRule": "*/1 * * * *",
+    "to_archive": {
+      "object_name":"archive_wenshu",
+      "contract_instances": {
+        "flows": [
+          "49cd342e-76a3-41ed-bbd6-e0921be9f004",
+          "2d6055de-53d2-4d65-8e56-0df9862b3226",
+          "25d7f36f-747d-4031-b767-e3023783846f",
+          "6a520bf56a83eac20a604bde",
+          "f0a3f03c7a64c6cc2cb2d40b"
+        ]
+      }
+    }
   }
 }
