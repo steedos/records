@@ -20,7 +20,6 @@ buildElectronicRecordCode = (formData) ->
 								formData?.year + strCount
 	return strElectronicRecordCode
 
-
 # 整理档案表数据
 _minxiInstanceData = (formData, instance) ->
 	if !instance
@@ -109,7 +108,7 @@ _minxiInstanceData = (formData, instance) ->
 
 # 整理关联档案
 _minxiRelatedArchives = (instance, record_id) ->
-	# 当前归档的文件有关联文件
+	# 当前归档的文件有关联的文件
 	if instance?.related_instances
 		related_archives = []
 		instance.related_instances.forEach (related_instance) ->
@@ -126,7 +125,7 @@ _minxiRelatedArchives = (instance, record_id) ->
 	mainRelatedObjs = Creator.Collections["instances"].find(
 		{'related_instances':instance._id},
 		{fields: {_id: 1}}).fetch()
-	# 如果被其他的主instance关联，则更新主instance的related_archives字段
+	# 如果被其他的主instance关联该文件，则更新主instance的related_archives字段
 	if mainRelatedObjs.length > 0
 		mainRelatedObjs.forEach (mainRelatedObj) ->
 			# 查找该主 instance对应的主关联档案
