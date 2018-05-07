@@ -195,7 +195,7 @@ Creator.Objects.archive_borrow =
 			on: "client"
 			when: "after.insert"
 			todo: (userId, doc)->
-				swal("借阅成功")
+				swal("借阅单已生成")
 	permission_set:
 		user:
 			allowCreate: true

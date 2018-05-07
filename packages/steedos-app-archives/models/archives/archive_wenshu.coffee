@@ -664,6 +664,11 @@ Creator.Objects.archive_wenshu =
 			#columns: ["year","retention_peroid","item_number","title","archival_code","document_date","author","category_code",
 					#	"archive_date","archive_dept","security_classification"]
 			columns:['item_number','archival_code',"author","title","electronic_record_code","total_number_of_pages","annotation",'archive_transfer_id']
+		borrow:
+            label:"查看"
+            filter_scope: "space"
+            filters: [["is_received", "=", true]]
+            columns:['document_sequence_number',"author","title","document_date","total_number_of_pages","annotation"]
 		receive:
 			label:"待接收"
 			filter_scope: "space"
@@ -746,22 +751,24 @@ Creator.Objects.archive_wenshu =
 			on: "server"
 			when: "after.update"
 			todo: (userId, doc, fieldNames, modifier, options)->
-				if modifier['$set']?.item_number or modifier['$set']?.organizational_structure or modifier['$set']?.retention_peroid
-					set_archivecode(doc._id)
+				if modifier['$set']?.item_number or modifier['$set']?.organizational_structure or modifier['$set']?.retention_peroid or modifier['$set']?.fonds_name or modifier['$set']?.year
+                    set_archivecode(doc._id)
+                if modifier['$set']?.retention_peroid
+                	duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
 				# duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
-				# if duration
-				# 	year = doc.document_date.getFullYear()+duration
-				# 	month = doc.document_date.getMonth()
-				# 	day = doc.document_date.getDate()
-				# 	destroy_date = new Date(year,month,day)
-				# # if doc.archive_destroy_id
-				# # 	state = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).destroy_state
-				# # 	if state=="已销毁"
-				# # 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
-				# #console.log doc.archive_destroy_id
-				# 	Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
-				# # destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
-				# # Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
+					if duration
+						year = doc.document_date.getFullYear()+duration
+						month = doc.document_date.getMonth()
+						day = doc.document_date.getDate()
+						destroy_date = new Date(year,month,day)
+				# if doc.archive_destroy_id
+				# 	state = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).destroy_state
+				# 	if state=="已销毁"
+				# 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
+				#console.log doc.archive_destroy_id
+						Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
+				# destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
+				# Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
 	actions:
 		number_adjuct:
 			label:'编号调整'
