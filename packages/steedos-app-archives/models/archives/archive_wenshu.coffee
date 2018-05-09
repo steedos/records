@@ -766,7 +766,7 @@ Creator.Objects.archive_wenshu =
 				# 	if state=="已销毁"
 				# 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
 				#console.log doc.archive_destroy_id
-						Creator.Collections[object_name].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
+						Creator.Collections["archive_wenshu"].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
 				# destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
 				# Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
 	actions:
