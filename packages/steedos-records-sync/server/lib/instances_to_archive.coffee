@@ -11,15 +11,6 @@ _checkParameter = (formData) ->
 		return false
 	return true
 
-# 按年度计算件数,生成电子文件号的最后组成
-buildElectronicRecordCode = (formData) ->
-	num = db.archive_wenshu.find({'year':formData?.year}).count() + 1
-	strCount = (Array(6).join('0') + num).slice(-6)
-	strElectronicRecordCode = formData?.fonds_identifier +
-								formData?.archival_category_code +
-								formData?.year + strCount
-	return strElectronicRecordCode
-
 # 整理档案表数据
 _minxiInstanceData = (formData, instance) ->
 	if !instance
@@ -70,17 +61,12 @@ _minxiInstanceData = (formData, instance) ->
 			formData.produce_flag = "在档"
 		else
 			formData.produce_flag = "暂存"
-
-	# 电子文件号，不生成，点击接收的时候才生成
-	# formData.electronic_record_code = buildElectronicRecordCode formData
 	
 	# 归档日期
 	formData.archive_date = moment(new Date()).format(dateFormat)
 
 	# OA表单的ID，作为判断OA归档的标志
 	formData.external_id = instance._id
-
-	formData.is_received = false
 
 	fieldNames = _.keys(formData)
 
@@ -104,7 +90,6 @@ _minxiInstanceData = (formData, instance) ->
 	console.log("_minxiInstanceData end", instance._id)
 
 	return formData
-
 
 # 整理关联档案
 _minxiRelatedArchives = (instance, record_id) ->
@@ -155,35 +140,39 @@ _minxiAttachmentInfo = (instance, record_id) ->
 	currentFiles.forEach (cf)->
 		try
 			versions = []
+			collection = Creator.Collections["cms_files"]
 			# 根据当前的文件,生成一个cms_files记录
-			cmsFileId = db.cms_files._makeNewID()
-			db.cms_files.insert({
+			cmsFileId = collection._makeNewID()
+			console.log "cf?.metadata?.main当前正文", cf?.metadata?.main
+			collection.insert({
 					_id: cmsFileId,
 					versions: [],
 					created_by: cf.metadata.owner,
 					size: cf.size(),
-					owner: cf.metadata.owner,
-					modified: cf.metadata.modified,
+					owner: cf?.metadata?.owner,
+					modified: cf?.metadata?.modified,
+					main: cf?.metadata?.main,
 					parent: {
 						o: object_name,
 						ids: [record_id]
 					},
-					modified_by: cf.metadata.modified_by,
-					created: cf.metadata.created,
+					modified_by: cf?.metadata?.modified_by,
+					created: cf?.metadata?.created,
 					name: cf.name(),
 					space: spaceId,
 					extention: cf.extension()
 				})
 
-			# 查找文件的历史版本
+			# 查找每个文件的历史版本
 			historyFiles = cfs.instances.find({
 				'metadata.instance': cf.metadata.instance,
 				'metadata.current': {$ne: true},
-				"metadata.main": {$ne: true},
 				"metadata.parent": cf.metadata.parent
 			}, {sort: {uploadedAt: -1}}).fetch()
 			# 把当前文件放在历史版本文件的最后
 			historyFiles.push(cf)
+
+			# 历史版本文件+当前文件 上传到creator
 			historyFiles.forEach (hf) ->
 				newFile = new FS.File()
 				newFile.attachData(
@@ -209,13 +198,13 @@ _minxiAttachmentInfo = (instance, record_id) ->
 							versions.push(fileObj._id)
 					)
 			# 把 cms_files 记录的 versions 更新
-			db.cms_files.update(cmsFileId, {$set: {versions: versions}})
+			collection.update(cmsFileId, {$set: {versions: versions}})
 		catch e
-			logger.error "正文附件下载失败：#{hf._id}. error: " + e
-
+			logger.error "正文附件下载失败：#{cf._id}. error: " + e
 
 # 整理档案审计数据
 _minxiInstanceTraces = (auditList, instance, record_id) ->
+	collection = Creator.Collections["archive_audit"]
 	# 获取步骤状态文本
 	getApproveStatusText = (approveJudge) ->
 		locale = "zh-CN"
@@ -224,28 +213,28 @@ _minxiInstanceTraces = (auditList, instance, record_id) ->
 		switch approveJudge
 			when 'approved'
 				# 已核准
-				approveStatusText = TAPi18n.__('Instance State approved', {}, locale)
+				approveStatusText = "已核准"
 			when 'rejected'
 				# 已驳回
-				approveStatusText = TAPi18n.__('Instance State rejected', {}, locale)
+				approveStatusText = "已驳回"
 			when 'terminated'
 				# 已取消
-				approveStatusText = TAPi18n.__('Instance State terminated', {}, locale)
+				approveStatusText = "已取消"
 			when 'reassigned'
 				# 转签核
-				approveStatusText = TAPi18n.__('Instance State reassigned', {}, locale)
+				approveStatusText = "转签核"
 			when 'relocated'
 				# 重定位
-				approveStatusText = TAPi18n.__('Instance State relocated', {}, locale)
+				approveStatusText = "重定位"
 			when 'retrieved'
 				# 已取回
-				approveStatusText = TAPi18n.__('Instance State retrieved', {}, locale)
+				approveStatusText = "已取回"
 			when 'returned'
 				# 已退回
-				approveStatusText = TAPi18n.__('Instance State returned', {}, locale)
+				approveStatusText = "已退回"
 			when 'readed'
 				# 已阅
-				approveStatusText = TAPi18n.__('Instance State readed', {}, locale)
+				approveStatusText = "已阅"
 			else
 				approveStatusText = ''
 				break
@@ -266,9 +255,20 @@ _minxiInstanceTraces = (auditList, instance, record_id) ->
 			auditObj.instace_id = instance._id
 			auditObj.space = instance.space
 			auditObj.owner = approve?.user
-			db.archive_audit.insert auditObj
-	return auditList
-
+			collection.direct.insert auditObj
+	autoAudit = {
+		business_status: "计划任务",
+		business_activity: "自动归档",
+		action_time: new Date,
+		action_user: "OA",
+		action_description: "",
+		action_administrative_records_id: record_id,
+		instace_id: instance._id,
+		space: instance.space,
+		owner: ""
+	}
+	collection.direct.insert autoAudit
+	return
 
 # =============================================
 
@@ -282,7 +282,7 @@ InstancesToArchive = (spaces, contract_flows, ins_ids) ->
 
 InstancesToArchive.success = (instance)->
 	console.log("success, name is #{instance.name}, id is #{instance._id}")
-	db.instances.direct.update({_id: instance._id}, {$set: {is_recorded: true}})
+	Creator.Collections["instances"].update({_id: instance._id}, {$set: {is_recorded: true}})
 
 InstancesToArchive.failed = (instance, error)->
 	console.log("failed, name is #{instance.name}, id is #{instance._id}. error: ")
@@ -321,27 +321,32 @@ InstancesToArchive.syncNonContractInstance = (instance, callback) ->
 
 	_minxiInstanceData(formData, instance)
 
-	console.log formData
-
 	if _checkParameter(formData)
 		logger.debug("_sendContractInstance: #{instance._id}")
 
-		# 添加到相应的档案表
-		record_id = Creator.Collections["archive_wenshu"].insert(formData)
+		# 如果原来已经归档，则删除原来归档的记录
+		collection = Creator.Collections["archive_wenshu"]
+
+		collection.remove({'external_id':instance._id})
+
+		record_id = collection.insert formData
+
+		# 整理文件
+		_minxiAttachmentInfo(instance, record_id)
 
 		# 整理关联档案
 		_minxiRelatedArchives(instance, record_id)
 
 		# 处理审计记录
-		# _minxiInstanceTraces(auditList, instance, record_id)
+		_minxiInstanceTraces(auditList, instance, record_id)
 
-		# InstancesToArchive.success instance
+		InstancesToArchive.success instance
 	else
 		InstancesToArchive.failed instance, "立档单位 不能为空"
 
 
 @Test = {}
-# Test.run('P7pEubcWpeBRprX5w')
+# Test.run('xBBrvqd97v5oPR76i')
 Test.run = (ins_id)->
 	instance = Creator.Collections["instances"].findOne({_id: ins_id})
 	if instance
@@ -351,11 +356,12 @@ Test.run = (ins_id)->
 InstancesToArchive::syncNonContractInstances = () ->
 	console.time("syncNonContractInstances")
 	instances = @getNonContractInstances()
+
 	that = @
 	console.log "instances.length is #{instances.length}"
 	instances.forEach (mini_ins)->
 		instance = Creator.Collections["instances"].findOne({_id: mini_ins._id})
 		if instance
 			console.log instance.name
-			# InstancesToArchive.syncNonContractInstance instance
+			InstancesToArchive.syncNonContractInstance instance
 	console.timeEnd("syncNonContractInstances")
