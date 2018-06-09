@@ -201,6 +201,22 @@ _minxiAttachmentInfo = (instance, record_id) ->
 			collection.update(cmsFileId, {$set: {versions: versions}})
 		catch e
 			logger.error "正文附件下载失败：#{cf._id}. error: " + e
+		
+	# 表单原文导出为xml
+	# form = Creator.Collections["forms"].findOne({_id: instance.form})
+
+	# attachInfoName = "#{form?.name}_#{instance._id}.html";
+
+	# space = Creator.Collections["spaces"].findOne({_id: instance.space});
+
+	# user = Creator.Collections["users"].findOne({_id: space.owner})
+
+	# options = {showTrace: true, showAttachments: true, absolute: true}
+
+	# html = InstanceReadOnlyTemplate.getInstanceHtml(user, space, instance, options)
+
+	# dataBuf = new Buffer(html);
+
 
 # 整理档案审计数据
 _minxiInstanceTraces = (auditList, instance, record_id) ->
