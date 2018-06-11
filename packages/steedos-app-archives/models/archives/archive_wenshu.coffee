@@ -694,11 +694,11 @@ Creator.Objects.archive_wenshu =
 			list_views:["default","recent","all","borrow"]
 			actions:["borrow"]
 		admin:
-			allowCreate: false
-			allowDelete: false
-			allowEdit: false
+			allowCreate: true
+			allowDelete: true
+			allowEdit: true
 			allowRead: true
-			modifyAllRecords: false
+			modifyAllRecords: true
 			viewAllRecords: true
 			list_views:["default","recent","all","borrow"]
 			actions:["borrow"]
