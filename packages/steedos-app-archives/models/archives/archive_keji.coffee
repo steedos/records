@@ -30,7 +30,7 @@ Creator.Objects.archive_keji =
 		document_date:
 			type:"date"
 			label:"文件日期"
-			format:"YYYYMMDD"
+			# format:"YYYYMMDD"
 		document_type:
 			type:"text"
 			label:"文件类型"
