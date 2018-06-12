@@ -1,3 +1,5 @@
+# logger = new Logger 'ARCHIVE_WENSHU'
+
 set_archivecode = (record_id)->
 	record = Creator.Collections["archive_wenshu"].findOne(record_id,{fields:{archival_code:1,fonds_name:1,retention_peroid:1,organizational_structure:1,year:1,item_number:1}})
 	if record?.item_number and record?.fonds_name and  record?.retention_peroid and record?.organizational_structure and record?.year
@@ -737,13 +739,13 @@ Creator.Objects.archive_wenshu =
 					day = doc.document_date.getDate()
 					doc.destroy_date = new Date(year,month,day)
 				return true
+
 		"before.update.server.default":
 			on: "server"
 			when: "before.update"
 			todo: (userId, doc, fieldNames, modifier, options)->
 				doc.retention_peroid = "DRmxfw7ByKd92gXsK"
-				
-				#console.log doc
+
 		"after.update.server.default":
 			on: "server"
 			when: "after.update"
@@ -752,20 +754,14 @@ Creator.Objects.archive_wenshu =
                     set_archivecode(doc._id)
                 if modifier['$set']?.retention_peroid
                 	duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
-				# duration = Creator.Collections["archive_retention"].findOne({_id:doc.retention_peroid})?.years
 					if duration
 						year = doc.document_date.getFullYear()+duration
 						month = doc.document_date.getMonth()
 						day = doc.document_date.getDate()
 						destroy_date = new Date(year,month,day)
-				# if doc.archive_destroy_id
-				# 	state = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).destroy_state
-				# 	if state=="已销毁"
-				# 		Creator.Collections["archive_destroy"].update({_id:doc.archive_destroy_id},{$set:{destroy_state:"未销毁"}})
-				#console.log doc.archive_destroy_id
 						Creator.Collections["archive_wenshu"].direct.update({_id:doc._id},{$set:{destroy_date:destroy_date}})
-				# destroy_records = Creator.Collections["archive_destroy"].findOne({_id:doc.archive_destroy_id}).
-				# Creator.Collections["archive_destroy"].update ({_id:doc.archive_destroy_id},{$set:{modified:new Date,modified_by:Meteor.userId(),destroy_records:}})
+				# logger.info "AAA"
+
 	actions:
 		number_adjuct:
 			label:'编号调整'

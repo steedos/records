@@ -1,6 +1,5 @@
 Meteor.methods
 	archive_renew: (selectedIds,space) ->
-		console.log selectedIds
 		selectedIds.forEach (selectedId)->
 			collection = Creator.Collections["archive_borrow"]
 			doc = collection.findOne({_id:selectedId})

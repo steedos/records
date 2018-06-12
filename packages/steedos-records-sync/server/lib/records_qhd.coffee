@@ -22,7 +22,7 @@ RecordsQHD.run = ()->
 	try
 		RecordsQHD.instanceToArchive()
 	catch  e
-		console.error "RecordsQHD.instanceToArchive", e
+		logger.error "RecordsQHD.instanceToArchive", e
 
 # RecordsQHD.instanceToArchive()
 RecordsQHD.instanceToArchive = (ins_ids)->
@@ -37,8 +37,6 @@ RecordsQHD.instanceToArchive = (ins_ids)->
 	if !spaces
 		logger.error "缺少settings配置: records-qhd.spaces"
 		return
-
-	console.log "============"
 
 	instancesToArchive = new InstancesToArchive(spaces, flows, ins_ids)
 

@@ -87,8 +87,6 @@ _minxiInstanceData = (formData, instance) ->
 		if !fieldValue
 			fieldValue = ''
 
-	console.log("_minxiInstanceData end", instance._id)
-
 	return formData
 
 # 整理关联档案

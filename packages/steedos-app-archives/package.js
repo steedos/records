@@ -9,9 +9,11 @@ Package.onUse(function(api) {
 	api.use('steedos:creator@0.0.5')
 	api.use('steedos:objects@0.0.1');
 	api.use('coffeescript@1.11.1_4');
+
+	api.use('steedos:logger');
+
 	api.addFiles('core.coffee');	
 	api.addFiles('client/core.coffee','client');
-
 	api.addFiles('archive.coffee');
 	api.addFiles('models/archives/archive_keji.coffee');
 	api.addFiles('models/archives/archive_kejiditu.coffee');

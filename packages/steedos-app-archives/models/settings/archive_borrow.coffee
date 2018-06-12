@@ -183,7 +183,6 @@ Creator.Objects.archive_borrow =
 			on: "server"
 			when: "after.insert"
 			todo: (userId, doc)->
-				console.log doc.relate_record?.o
 				Creator.Collections[doc.relate_record?.o].direct.update({_id:doc.relate_record?.ids},{$set:{is_borrowed:true,borrowed:new Date(),borrowed_by:userId}})
 				borrow_entity = Creator.Collections["archive_borrow"].findOne doc._id
 				if borrow_entity
