@@ -23,8 +23,8 @@ Package.onUse(function (api) {
 
 	api.use('steedos:logger');
 
-	api.use('steedos:creator@0.0.5');
-	api.use('steedos:objects@0.0.1');
+	api.use('steedos:creator');
+	api.use('steedos:objects');
 
 	api.use('steedos:app-workflow');
 	api.use('steedos:app-archive');
