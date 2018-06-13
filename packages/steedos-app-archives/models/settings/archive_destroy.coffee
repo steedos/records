@@ -38,7 +38,8 @@ Creator.Objects.archive_destroy =
 				{label:"草稿",value:"draft"},
 				{label:"审批中",value:"pending"},
 				{label:"已核准",value:"approved"},
-				{label:"已驳回",value:"rejected"}
+				{label:"已驳回",value:"rejected"},
+				{label:"已完成",value:"completed"}
 			]
 			defaultValue:"draft"
 		destroy_state:
