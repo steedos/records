@@ -1,0 +1,49 @@
+{
+  "dependencies": {
+    "basic-auth": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/basic-auth/-/basic-auth-2.0.0.tgz",
+      "from": "basic-auth@2.0.0"
+    },
+    "extend": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/extend/-/extend-3.0.1.tgz",
+      "from": "extend@>=3.0.0 <4.0.0"
+    },
+    "odata-v4-literal": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/odata-v4-literal/-/odata-v4-literal-0.1.1.tgz",
+      "from": "odata-v4-literal@>=0.1.0 <0.2.0"
+    },
+    "odata-v4-metadata": {
+      "version": "0.1.5",
+      "resolved": "https://registry.npmjs.org/odata-v4-metadata/-/odata-v4-metadata-0.1.5.tgz",
+      "from": "odata-v4-metadata@>=0.1.2 <0.2.0"
+    },
+    "odata-v4-mongodb": {
+      "version": "0.1.12",
+      "resolved": "git+https://github.com/steedos/odata-v4-mongodb.git#037d6d5ed9cb598a9a45eb99247371fa87f9cc35",
+      "from": "git+https://github.com/steedos/odata-v4-mongodb.git#master"
+    },
+    "odata-v4-parser": {
+      "version": "0.1.25",
+      "resolved": "git+https://github.com/steedos/odata-v4-parser.git#4b0fca7c0d3a8335a1e2b710d201a3107a767067",
+      "from": "git+https://github.com/steedos/odata-v4-parser.git#master"
+    },
+    "odata-v4-service-document": {
+      "version": "0.0.3",
+      "resolved": "https://registry.npmjs.org/odata-v4-service-document/-/odata-v4-service-document-0.0.3.tgz",
+      "from": "odata-v4-service-document@0.0.3"
+    },
+    "odata-v4-service-metadata": {
+      "version": "0.1.6",
+      "resolved": "https://registry.npmjs.org/odata-v4-service-metadata/-/odata-v4-service-metadata-0.1.6.tgz",
+      "from": "odata-v4-service-metadata@0.1.6"
+    },
+    "safe-buffer": {
+      "version": "5.1.1",
+      "resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.1.tgz",
+      "from": "safe-buffer@5.1.1"
+    }
+  }
+}
