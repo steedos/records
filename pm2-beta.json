@@ -10,8 +10,8 @@
             "env": {
                     "MONGO_URL": "mongodb://192.1.1.42:27017/steedos",
                     "MONGO_OPLOG_URL": "mongodb://192.1.1.42:27017/local",
-                    "ROOT_URL": "https://qhd.steedos.com/creator_records",
-                    "DDP_DEFAULT_CONNECTION_URL": "https://qhd.steedos.com/creator_records",
+                    "ROOT_URL": "https://qhd-beta.steedos.com/creator_records",
+                    "-DDP_DEFAULT_CONNECTION_URL": "https://qhd-beta.steedos.com/creator_records",
                     "PORT": "4010"
             }
     }]
