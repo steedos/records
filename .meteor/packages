@@ -29,6 +29,8 @@ accounts-password
 fortawesome:fontawesome
 tap:i18n
 
+steedos:creator@0.0.6
+
 raix:push
 steedos:cors
 aldeed:tabular
@@ -54,8 +56,6 @@ meteorhacks:subs-manager
 dburles:collection-helpers
 
 momentjs:moment
-mrt:moment
-mrt:moment-timezone
 
 steedos:loaders-css
 
@@ -96,7 +96,6 @@ keepnox:perfect-scrollbar
 steedos:ionicons@0.1.7
 
 steedos:sso
-steedos:creator@0.0.6
 natestrauser:select2
 meteorhacks:unblock@1.1.0
 

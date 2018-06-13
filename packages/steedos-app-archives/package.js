@@ -6,7 +6,7 @@ Package.describe({
 });
 
 Package.onUse(function(api) {
-	api.use('steedos:creator@0.0.6');
+	api.use('steedos:creator');
 	api.use('coffeescript@1.11.1_4');
 
 	api.use('steedos:logger');
