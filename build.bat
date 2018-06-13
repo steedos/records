@@ -1,8 +1,8 @@
 cd C:\Users\steedos\Documents\GitHub\records
-meteor build --server https://cn.steedos.com/records --directory C:/Code/Build/records-build/
-cd C:/Code/Build/records-build/bundle/programs/server
+meteor build --server https://cn.steedos.com/records --directory C:/creator_records-build/
+cd C://creator_records-build/bundle/programs/server
 rd /s /q node_modules
 npm install --registry https://registry.npm.taobao.org -d
 
-cd C:/Code/Build/records-build/
-pm2 restart records.0
+cd C://creator_records-build/
+pm2 restart creator_records.0
