@@ -108,8 +108,13 @@ Creator.Objects.archive_wenshu =
 			group:"档号"
 
 		organizational_structure:
-			type:"master_detail"
+			type:"text"
 			label:"机构"
+			group:"档号"
+		
+		organizational_structure_code:
+			type:"master_detail"
+			label:"机构代码"
 			reference_to: "archive_organization"
 			group:"档号"
 

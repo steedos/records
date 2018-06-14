@@ -29,7 +29,7 @@ accounts-password
 fortawesome:fontawesome
 tap:i18n
 
-steedos:creator@0.0.6
+steedos:creator
 
 raix:push
 steedos:cors
@@ -104,7 +104,7 @@ steedos:lightning-design-system
 steedos:cms
 
 
-steedos:object-database
+steedos:object-database@0.0.1
 steedos:objects@0.0.1
 
 steedos:odata

@@ -90,8 +90,6 @@ mpowaga:autoform-summernote@0.4.3
 mpowaga:jquery-fileupload@9.11.2
 mpowaga:jquery-ui-widget@1.11.4
 mpowaga:string-template@0.1.0
-mrt:moment@2.8.1
-mrt:moment-timezone@0.2.1
 natestrauser:select2@4.0.3
 nimble:restivus@0.8.12
 npm-bcrypt@0.9.3
@@ -131,7 +129,7 @@ steedos:accounts@0.0.31
 steedos:accounts-phone@0.0.3
 steedos:accounts-t9n@1.14.2_8
 steedos:adminlte@2.3.12_3
-steedos:app-archive@0.0.3
+steedos:app-archive@0.0.4
 steedos:app-workflow@0.0.1
 steedos:autoform@0.0.12
 steedos:autoform-bs-datetimepicker@1.0.6
@@ -176,6 +174,7 @@ steedos:ionicons@0.1.7
 steedos:jstree@3.3.2
 steedos:lightning-design-system@0.0.1
 steedos:loaders-css@0.1.2
+steedos:location@0.0.1
 steedos:logger@0.0.2
 steedos:object-database@0.0.1
 steedos:objects@0.0.1

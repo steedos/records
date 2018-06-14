@@ -1,6 +1,6 @@
 Package.describe({
 	name: 'steedos:app-archive',
-	version: '0.0.3',
+	version: '0.0.5',
 	summary: 'Creator archive',
 	git: ''
 });
@@ -9,7 +9,7 @@ Package.onUse(function(api) {
 	api.use('steedos:creator@0.0.5');
 	api.use('coffeescript@1.11.1_4');
 
-	api.use('steedos:logger');
+	api.use('steedos:logger@0.0.2');
 
 	api.addFiles('core.coffee');	
 	api.addFiles('client/core.coffee','client');
